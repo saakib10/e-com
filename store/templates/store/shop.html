@@ -23,7 +23,8 @@
                                                     <img src="{{ product.imagesURL }}" class="img-fluid" alt="Image">
                                                     <div class="mask-icon">
 
-                                                        <a data-product ="{{ product.id }}" data-action="add" class="cart update-cart" href="#">Add to Cart</a>
+                                                        <a data-product ="{{ product.id }}" data-action="add" class="cart update-cart"  href="#">Add to Cart</a>
+
 
 
                                                     </div>
@@ -31,6 +32,8 @@
                                                 <div class="why-text">
                                                     <h4>{{ product.name }}</h4>
                                                     <h5> $ {{ product.price }}</h5>
+                                                    <a href="{% url 'details' product.id %}" style="float:right"class="btn hvr-hover"  href="#">Details</a>
+
                                                 </div>
                                             </div>
                                         </div>

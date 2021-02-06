@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+<div class="container">
+
+    <div class="row mt-5 mb-5">
+
+    <div class="col-sm-5">
+        <h1>Login Here</h1>
+
+    </div>
+    <div class="col-sm-6">
+
+        <form class="mt-5" method="post" action="" novalidate>
+            {% csrf_token %}
+            {% for fm in form%}
+            {{fm.label}} {{fm}} {{fm.errors|striptags}} <br><br>
+            {%endfor%}
+            <button class="btn hvr-hover" type="submit">Login</button>
+            <a href="{% url 'signin' %}" class="btn hvr-hover">SignUp</a>
+
+            {% if form.non_field_errors %}
+            {% for error in form.non_field_errors %}
+                <p class="btn-warning">{{ error }}</p>
+            {% endfor %}
+            {% endif %}
+
+
+        </form>
+
+    </div>
+
+</div>
+
+</div>
+
+
+
+
+
+{% endblock content %}
