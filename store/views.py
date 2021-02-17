@@ -3,8 +3,10 @@ from .models import *
 from django.http import JsonResponse
 import json
 import datetime
-from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
-from django.contrib.auth import authenticate,logout,login
+from django.template.loader import render_to_string
+from django.core.mail import send_mail
+from django.conf import settings
+
 
 def home(request):
     if request.user.is_authenticated:
@@ -14,7 +16,7 @@ def home(request):
         cartItems = order.get_cart_items
     else:
         items = []
-        order = {'get_cart_total': 0, 'get_cart_items': 0, 'shipping': False}
+        order = {'get_cart_total': 0, 'get_cart_items': 0}
         cartItems = 0
     contex = {'items': items,'order':order,'cartItems':cartItems}
     return render(request,'home.html',contex)
@@ -27,7 +29,7 @@ def cart(request):
         cartItems = order.get_cart_items
     else:
         items = []
-        order = {'get_cart_total': 0, 'get_cart_items': 0, 'shipping': False}
+        order = {'get_cart_total': 0, 'get_cart_items': 0}
         cartItems = 0
     contex = {'items': items,'order':order,'cartItems':cartItems}
     return render(request,'cart.html',contex)
@@ -42,7 +44,7 @@ def shop(request):
 
         cartItems = 0
         items = []
-        order = {'get_cart_total': 0, 'get_cart_items': 0, 'shipping': False}
+        order = {'get_cart_total': 0, 'get_cart_items': 0}
 
     products = Product.objects.all()
     contex = {'items': items,'products':products,'cartItems':cartItems,'order':order}
@@ -57,9 +59,9 @@ def checkout(request):
         cartItems = order.get_cart_items
     else:
         items = []
-        order = {'get_cart_total': 0, 'get_cart_items': 0, 'shipping': False}
+        order = {'get_cart_total': 0, 'get_cart_items': 0}
         cartItems = 0
-    contex = {'items': items,'order':order,'cartItems':cartItems}
+    contex = {'items': items,'order': order,'cartItems': cartItems}
     return render(request,'checkout.html',contex)
 
 def update_item(request):
@@ -85,40 +87,6 @@ def update_item(request):
 
     return JsonResponse('Item is added', safe=False)
 
-def sign_in(request):
-    cartItems = 0
-
-    if request.method == 'POST':
-
-        form = UserCreationForm(request=request,data=request.POST)
-
-        if form.is_valid():
-            form.save()
-            form = UserCreationForm()
-    else:
-        form = UserCreationForm()
-    contex = {'form':form,'cartItems':cartItems}
-    return render(request,'signin.html',contex)
-
-def log_in(request):
-    cartItems = 0
-    if request.method == 'POST':
-        form = AuthenticationForm(request = request, data=request.POST)
-        if form.is_valid():
-
-            uname = form.cleaned_data['username']
-            upass = form.cleaned_data['password']
-
-            user = authenticate(username = uname , password = upass)
-
-            if user is not None :
-                login(request,user)
-                return HttpResponseRedirect('/')
-
-
-    form = AuthenticationForm()
-    contex = {'form':form,'cartItems':cartItems}
-    return render(request,'login.html',contex)
 
 def processOrder(request):
 
@@ -131,17 +99,31 @@ def processOrder(request):
         total = float(data['form']['total'])
         order.transaction_id = transaction_id
 
-        if total == order.get_cart_total:
-            order.complete = True
-        order.save()
-
         OrderDetail.objects.create(
             customer=customer,
             order=order,
             mobile=data['form']['mobile'],
             emailaddress=data['form']['email'],
-            address =data['form']['address'],
+            address=data['form']['address'],
         )
+
+        if total == order.get_cart_total:
+            order.complete = True
+        order.save()
+
+        template = render_to_string('store/order.html',{'name':request.user.username})
+        subject = 'Order Confirmations'
+        # body = 'Your Account is Activated'
+        from_mail = settings.EMAIL_HOST_USER
+        to_mail = [request.user.email]
+        send_mail(
+            subject,
+            # body,
+            template,
+            from_mail,
+            to_mail,
+        )
+        send_mail(subject, template, from_mail, to_mail, fail_silently=False)
 
     else:
         print('user is not logged in ')
@@ -149,12 +131,17 @@ def processOrder(request):
     return JsonResponse('Payment Done .. ', safe=False)
 
 
-def log_out(request):
-    logout(request)
-    return HttpResponseRedirect('/log_in/')
-
-
 def view_details(request,id):
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        order,created = Order.objects.get_or_create(customer = customer, complete = False)
+        cartItems = order.get_cart_items
+        items = order.orderitem_set.all()
+    else:
+        items = []
+        order = {'get_cart_total': 0, 'get_cart_items': 0}
+        cartItems = 0
     details = Product.objects.get(pk = id)
-    contex = {'details':details}
+    contex = {'details':details,'cartItems':cartItems,'items':items}
     return render(request,'details.html',contex)
+
