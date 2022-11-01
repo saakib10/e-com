@@ -6,6 +6,7 @@ import datetime
 from django.template.loader import render_to_string
 from django.core.mail import send_mail
 from django.conf import settings
+from django.http import JsonResponse
 
 
 def home(request):
@@ -45,9 +46,16 @@ def shop(request):
         cartItems = 0
         items = []
         order = {'get_cart_total': 0, 'get_cart_items': 0}
+    category = Category.get_all_category()
+    products = None
+    categoryID= request.GET.get('category')
 
-    products = Product.objects.all()
-    contex = {'items': items,'products':products,'cartItems':cartItems,'order':order}
+    if categoryID:
+        products = Product.get_all_product_by_category_id(categoryID)
+    else:
+        products = Product.get_all_products()
+
+    contex = {'items': items,'products':products,'cartItems':cartItems,'order':order,'category':category}
     return render(request,'shop.html',contex)
 
 def checkout(request):
@@ -145,3 +153,19 @@ def view_details(request,id):
     contex = {'details':details,'cartItems':cartItems,'items':items}
     return render(request,'details.html',contex)
 
+def price(request):
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        print("Pppppppppppppp",customer)
+        item = Product.objects.values()
+        user_items = list(item)
+        return JsonResponse({'items': user_items})
+    return render(request,'user_order_details.html')
+
+    if request.method == 'GET':
+        selectedProduct = request.GET['client_response']
+        total_price = Product.objects.filter(product = selectedProduct).first().price
+        response_data ={}
+        response_data['price'] = total_price
+
+        return JsonResponse(response_data)

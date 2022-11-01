@@ -6,6 +6,7 @@ from .form import *
 
 
 def sign_in(request):
+    cartItems = 0
     if request.method == "POST":
         form = UserSignupForm(request.POST)
         if form.is_valid():
@@ -14,10 +15,11 @@ def sign_in(request):
 
     else:
         form = UserSignupForm()
-    contex = {'form':form}
+    contex = {'form':form,'cartItems':cartItems}
     return render(request,'signin.html',contex)
 
 def log_in(request):
+    cartItems = 0
     if request.method == "POST":
         form = AuthenticationForm(request=request, data=request.POST)
         if form.is_valid():
@@ -32,5 +34,9 @@ def log_in(request):
     else:
         form = AuthenticationForm()
 
-    contex = {'form':form}
+    contex = {'form':form,'cartItems':cartItems}
     return render(request,'login.html',contex)
+
+def log_out(request):
+    logout(request)
+    return HttpResponseRedirect('/')

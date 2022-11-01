@@ -17,7 +17,7 @@
     <meta name="author" content="">
 
     <!-- Site Icons -->
-    <link rel="shortcut icon" href="/images/logo3.jpg" type="image/x-icon">
+    <link rel="shortcut icon" href="/images/logo3.jpg"  type="image/x-icon">
 
 
     <!-- Bootstrap CSS -->
@@ -66,7 +66,7 @@
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fa fa-bars"></i>
                 </button>
-                    <img src="/images/logo3.jpg" class="logo" alt="">
+                    <img src="/images/logo3.jpg" width="100px;" class="logo" alt="">
                 </div>
                 <!-- End Header Navigation -->
 
@@ -77,32 +77,14 @@
 
                         <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
-
-                        <li class="dropdown active">
-                            <a href="#" class="nav-link " data-toggle="dropdown">SHOP</a>
-                            <ul class="dropdown-menu">
-								<li><a href="{% url 'shop' %}">Products</a></li>
-								<li><a href="{% url 'cart' %}">Cart</a></li>
-                                <li><a href="{% url 'checkout' %}">Checkout</a></li>
-                            </ul>
-                        </li>
-                        <li class="dropdown active">
-                            <a href="#" class="nav-link " data-toggle="dropdown">Register</a>
-                            <ul class="dropdown-menu">
-                                {% if not request.user.is_authenticated %}
-								<li><a href="{% url 'signin' %}">Sign Up</a></li>
-								<li><a href="{% url 'login' %}">Sign In</a></li>
-                                {% else %}
-                                <li><a href="#">Sign Out</a></li>
-                                {% endif %}
-
-                            </ul>
-                        </li>
-
-
-
-
-
+                        <li class="nav-item"><a class="nav-link" href="{% url 'shop' %}">Shop</a></li>
+                        {% if not request.user.is_authenticated %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'signin' %}">Register</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Log In</a></li>
+                        {% else %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Sign Out</a></li>
+                        {% endif %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'user' %}">User</a></li>
 
                     </ul>
                 </div>
@@ -160,7 +142,7 @@
 						<div class="footer-top-box">
 							<h3>Business Time</h3>
 							<ul class="list-time">
-								<li>Saturday - Thursday: 10.00am to 10.00pm</li>  <li>Friday: <span>Closed</span></li>
+								<li>Saturday - Thursday: 10.00am to 8.00pm</li>  <li>Friday: <span>Closed</span></li>
 							</ul>
 						</div>
 					</div>
@@ -208,7 +190,7 @@
     <script src="{% static 'js/jquery.superslides.min.js' %}"></script>
     <script src="{% static 'js/bootstrap-select.js' %}"></script>
     <script src="{% static 'js/inewsticker.js' %}"></script>
-    <script src="{% static 'js/bootsnav.js.' %}"></script>
+    <!-- <script src="{% static 'js/bootsnav.js.' %}"></script> -->
     <script src="{% static 'js/images-loded.min.js' %}"></script>
     <script src="{% static 'js/isotope.min.js' %}"></script>
     <script src="{% static 'js/owl.carousel.min.js' %}"></script>
