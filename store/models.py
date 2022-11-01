@@ -8,6 +8,13 @@ class Category(models.Model):
     def __str__(self):
         return self.title
 
+    @staticmethod
+    def get_all_category():
+        return Category.objects.all()
+
+    
+# Customer Model
+
 
 class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
@@ -23,6 +30,18 @@ class Product(models.Model):
     category = models.ForeignKey(Category,max_length=50,on_delete=models.CASCADE, null=True)
     images = models.ImageField(null=True, blank=True)
     descriptions = models.CharField(max_length=500 , null=True)
+
+
+    @staticmethod
+    def get_all_products():
+        return Product.objects.all()
+
+    @staticmethod
+    def get_all_product_by_category_id(category_id):
+        if category_id:
+            return Product.objects.filter(category=category_id)
+        else:
+            return Product.get_all_products()
 
     def __str__(self):
         return self.name
@@ -53,6 +72,7 @@ class Order(models.Model):
     @property
     def get_cart_items(self):
         orderitems = self.orderitem_set.all()
+        print(orderitems)
         total = sum([item.quantity for item in orderitems])
         return total
 

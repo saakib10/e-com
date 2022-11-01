@@ -14,7 +14,6 @@ for (var i = 0; i < updateBtns.length; i++){
             updateUserOrder(productId,action)
         }
        })
-
     }
 
 function updateUserOrder(productId,action){
@@ -41,3 +40,12 @@ function updateUserOrder(productId,action){
 
      })
 }
+
+$.ajax({
+    url : '{% url "user" %}',
+    type : "POST",
+
+    success: function(response) {
+        console.log(response.items)
+    }
+});
