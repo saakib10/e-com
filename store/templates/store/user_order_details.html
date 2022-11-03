@@ -1,21 +1,44 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="row">
-    <div class="col-sm-4">
-
+<div class="shop-box-inner">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4"></div>
+            <div class="col-sm-8">
+                <div class="col-lg-12">
+                    <div class="table-main table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Product Name</th>
+                                <th>Quantity</th>
+                                <th>Order</th>
+    
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for item in items %}
+                            <tr>
+                                <td class="name-pr">
+                                    <a href="#">
+                                        {{ item.item_name }}
+                                    </a>
+                                </td>
+                                <td class="price-pr">
+                                    <p>$ {{ item.qty }}</p>
+                                </td>
+                                <td class="price-pr">
+                                    <p>$ {{ item.order }}</p>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-<!-- <div class="col-sm-6">
-    {% for x in order_items %}
-        <p>{{ x.product }}</p>
-    {% endfor %}
-</div> -->
 
 {% endblock content %}
-
-<script>
-    $(document).ready(function() {
-        
-    });
-    console.log("ppppppppp")
-</script>
