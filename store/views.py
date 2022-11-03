@@ -15,11 +15,13 @@ def home(request):
         order,created = Order.objects.get_or_create(customer = customer, complete = False)
         items = order.orderitem_set.all()
         cartItems = order.get_cart_items
+        s_image = HomepageSlideshow.objects.all()
     else:
         items = []
         order = {'get_cart_total': 0, 'get_cart_items': 0}
         cartItems = 0
-    contex = {'items': items,'order':order,'cartItems':cartItems}
+        s_image = HomepageSlideshow.objects.all()
+    contex = {'items': items,'order':order,'cartItems':cartItems,'images':s_image}
     return render(request,'home.html',contex)
 
 def cart(request):
@@ -153,19 +155,3 @@ def view_details(request,id):
     contex = {'details':details,'cartItems':cartItems,'items':items}
     return render(request,'details.html',contex)
 
-def price(request):
-    if request.user.is_authenticated:
-        customer = request.user.customer
-        print("Pppppppppppppp",customer)
-        item = Product.objects.values()
-        user_items = list(item)
-        return JsonResponse({'items': user_items})
-    return render(request,'user_order_details.html')
-
-    if request.method == 'GET':
-        selectedProduct = request.GET['client_response']
-        total_price = Product.objects.filter(product = selectedProduct).first().price
-        response_data ={}
-        response_data['price'] = total_price
-
-        return JsonResponse(response_data)
