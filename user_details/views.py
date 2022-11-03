@@ -20,4 +20,4 @@ def get_user_order_items(request):
                     data_dict["order"] = x.get("id")
                     items.append(data_dict)
             context["items"] = items
-    return render(request,'user_order_details.html',context)
+    return render(request,'user_order_details.html',context) 
