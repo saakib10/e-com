@@ -1,12 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-
-
         <div id="slides-shop" class="cover-slides">
                 <ul class="slides-container">
+                    {% for item in images %}
                     <li class="text-center">
-                        <img src="images/mobile1.jpg" alt="">
+                        <img src="{{ item.imagesURL }}" alt="">
                         <div class="container">
                             <div class="row">
                                 <div class="col-md-12">
@@ -17,59 +16,9 @@
                             </div>
                         </div>
                     </li>
-                    <li class="text-center">
-                        <img src="images/giant_122150.jpg" alt="">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <h1 class="m-b-20"><strong>Welcome To <br> Miniport</strong></h1>
-                                    <p class="m-b-40">Grab your product with premium quality  <br> With extra offer.</p>
-                                    <p><a class="btn hvr-hover" href="{% url 'shop' %}">Shop New</a></p>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="text-center">
-                        <img src="images/router3.jpg" alt="">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <h1 class="m-b-20"><strong>Welcome To <br> Miniport</strong></h1>
-                                    <p class="m-b-40">Grab your product with premium quality  <br> With extra offer.</p>
-                                    <p><a class="btn hvr-hover" href="{% url 'shop' %}">Shop New</a></p>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="text-center">
-                        <img src="images/watch1.jpg" alt="">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <h1 class="m-b-20"><strong>Welcome To <br> Miniport</strong></h1>
-                                    <p class="m-b-40">Grab your product with premium quality  <br> With extra offer.</p>
-                                    <p><a class="btn hvr-hover" href="{% url 'shop' %}">Shop New</a></p>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="text-center">
-                        <img src="images/router2.jpg" alt="">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <h1 class="m-b-20"><strong>Welcome To <br> Miniport</strong></h1>
-                                    <p class="m-b-40">Grab your product with premium quality  <br> With extra offer.</p>
-                                    <p><a class="btn hvr-hover" href="{% url 'shop' %}">Shop New</a></p>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-
+                    {% endfor %}
                 </ul>
-
             </div>
-
             <div class="categories-shop">
                 <div class="container">
                     <div class="row">
@@ -94,8 +43,6 @@
                     </div>
                 </div>
             </div>
-
-
             <div class="box-add-products">
                 <div class="container">
                     <div class="row">
@@ -112,5 +59,4 @@
                     </div>
                 </div>
             </div>
-
 {% endblock content %}

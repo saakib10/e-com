@@ -101,6 +101,18 @@ class OrderDetail(models.Model):
 
     def __str__(self):
         return self.address
-
-
+class HomepageSlideshow(models.Model):
+    image = models.ImageField(null=True, blank=True)
+    heading = models.CharField(max_length=200, null=True)
+    
+    @property
+    def imagesURL(self):
+        try:
+            url = self.image.url
+        except:
+            url = ''
+        return url
+    
+    def __str__(self):
+        return self.heading
 

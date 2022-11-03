@@ -15,11 +15,13 @@ def home(request):
         order,created = Order.objects.get_or_create(customer = customer, complete = False)
         items = order.orderitem_set.all()
         cartItems = order.get_cart_items
+        s_image = HomepageSlideshow.objects.all()
     else:
         items = []
         order = {'get_cart_total': 0, 'get_cart_items': 0}
         cartItems = 0
-    contex = {'items': items,'order':order,'cartItems':cartItems}
+        s_image = HomepageSlideshow.objects.all()
+    contex = {'items': items,'order':order,'cartItems':cartItems,'images':s_image}
     return render(request,'home.html',contex)
 
 def cart(request):
