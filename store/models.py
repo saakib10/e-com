@@ -20,6 +20,7 @@ class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     name = models.CharField(max_length=200, null=True)
     email = models.CharField(max_length=200, null=True)
+    mobile = models.CharField(max_length=16, null=True)
 
     def __str__(self):
         return self.name
@@ -59,6 +60,7 @@ class Order(models.Model):
     date_ordered = models.DateTimeField(auto_now_add=True)
     complete = models.BooleanField(default=False, null=True, blank=False)
     transaction_id = models.CharField(max_length=200)
+    total = models.FloatField(null=True, blank=True, default=0.0)
 
     def __str__(self):
         return str(self.id)
@@ -72,7 +74,6 @@ class Order(models.Model):
     @property
     def get_cart_items(self):
         orderitems = self.orderitem_set.all()
-        print(orderitems)
         total = sum([item.quantity for item in orderitems])
         return total
 
@@ -82,6 +83,7 @@ class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.SET_NULL, blank=True, null=True)
     quantity = models.IntegerField(default=0, null=True, blank=True)
     date_added = models.DateTimeField(auto_now_add=True)
+    total = models.FloatField(null=True, blank=True, default=0.0)
 
     def __str__(self):
         return str(self.product.name)
@@ -89,6 +91,12 @@ class OrderItem(models.Model):
     def get_total(self):
         total = self.product.price * self.quantity
         return total
+    
+    def save(self, *args, **kwargs):
+        if self.quantity and self.product:
+            self.total = self.product.price * self.quantity
+
+        super().save(*args, **kwargs)
 
 class OrderDetail(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, blank=True, null=True)
@@ -101,6 +109,7 @@ class OrderDetail(models.Model):
 
     def __str__(self):
         return self.address
+    
 class HomepageSlideshow(models.Model):
     image = models.ImageField(null=True, blank=True)
     heading = models.CharField(max_length=200, null=True)
@@ -115,4 +124,34 @@ class HomepageSlideshow(models.Model):
     
     def __str__(self):
         return self.heading
+    
+class Province(models.Model):
+    name = models.CharField(max_length=20, null=True)
+    
+    def __str__(self):
+        return self.name
+    
+class City(models.Model):
+    name = models.CharField(max_length=20, null=True)
+    province = models.ForeignKey(Province, on_delete=models.SET_NULL, blank=True, null=True)
+    
+    def __str__(self):
+        return self.name
+    
+class Area(models.Model):
+    name = models.CharField(max_length=20, null=True)
+    city = models.ForeignKey(City, on_delete=models.SET_NULL, blank=True, null=True)
+    
+    def __str__(self):
+        return self.name
 
+class CustomerAddress(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, blank=True, null=True)
+    province = models.ForeignKey(Province, on_delete=models.SET_NULL, blank=True, null=True)
+    city = models.ForeignKey(City, on_delete=models.SET_NULL, blank=True, null=True)
+    area = models.ForeignKey(Area, on_delete=models.SET_NULL, blank=True, null=True)
+    address = models.CharField(max_length=200, null=True)
+    
+    def __str__(self):
+        return self.customer.name
+    

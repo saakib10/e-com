@@ -4,12 +4,9 @@ for (var i = 0; i < updateBtns.length; i++){
 
         var productId = this.dataset.product
         var action = this.dataset.action
-        console.log ('USER:',user)
 
         if (user === 'AnonymousUser'){
             alert('Customer must log in First !');
-
-            console.log('No user logged in')
         }else{
             updateUserOrder(productId,action)
         }
@@ -17,8 +14,6 @@ for (var i = 0; i < updateBtns.length; i++){
     }
 
 function updateUserOrder(productId,action){
-
-     console.log('Logged In. Sending Data ..... ')
 
      var url = '/updateitem/'
      fetch (url, {
@@ -34,10 +29,7 @@ function updateUserOrder(productId,action){
         return response.json()
      })
      .then((data) => {
-        console.log ('data:',data)
         location.reload()
-
-
      })
 }
 
@@ -49,3 +41,54 @@ $.ajax({
         console.log(response.items)
     }
 });
+
+// pop up form 
+
+// Code By Webdevtrick ( https://webdevtrick.com )
+(function(){
+    $('html').addClass('js');
+    
+    var contactForm = {
+      container: $('#contact'),
+      config: {
+        effect: 'slideToggle',
+        speed: 200
+      },
+      
+      init: function(config){
+        $.extend(this.config, config);
+        
+        $('#c-btn').on('click', this.show);
+      },
+  
+      show: function(){
+        var cf = contactForm,
+            container = cf.container,
+            config = cf.config;
+                      
+  
+        if(container.is(':hidden')){
+          cf.close.call(container);
+          container[config.effect]
+          (config.speed);
+        }
+      },
+  
+      close: function(){
+        var $this = $('#contact'); 
+        
+        if($this.find('span.close').length) return;
+  
+        $('<span class=close>-</span>')
+          .prependTo(this)
+          .on('click', function(){
+          $this[contactForm.config.effect](contactForm.config.speed);
+        })
+      }
+    };
+  
+  contactForm.init({
+    effect: 'fadeToggle',
+    speed: 200
+  });
+  })();
