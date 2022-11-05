@@ -108,13 +108,14 @@ def processOrder(request):
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
         total = float(data['form']['total'])
         order.transaction_id = transaction_id
+        order.total = total
 
         OrderDetail.objects.create(
             customer=customer,
             order=order,
             mobile=data['form']['mobile'],
             emailaddress=data['form']['email'],
-            address=data['form']['address'],
+            address=data['form']['address']
         )
 
         if total == order.get_cart_total:

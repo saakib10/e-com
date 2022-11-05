@@ -17,4 +17,5 @@ class UserSignupForm(UserCreationForm):
         customer.user = instance
         customer.name = instance.username
         customer.email = instance.email
+        customer.mobile = instance.first_name
         customer.save()
