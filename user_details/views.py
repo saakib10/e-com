@@ -1,5 +1,10 @@
 from django.shortcuts import render, HttpResponseRedirect
 from store.models import *
+from django.shortcuts import get_list_or_404, render
+from django.http import HttpResponse
+from django.shortcuts import get_list_or_404
+from django.http import JsonResponse
+from django.db.models import Q
 
 # Create your views here.
 def get_user_order_items(request):
@@ -37,10 +42,57 @@ def set_address_for_customer(request):
         if cmmt:
             address = CustomerAddress.objects.get(customer = customer)
             details = {}
-            details['province'] = address.province
-            details['city'] = address.city
-            details['area'] = address.area
-            details['address'] = address.address
+            if address.province:
+                province = {'id': address.province.id,'name': address.province}
+                details.update({'province':province})
+                pr = Province.objects.filter(~Q(name=address.province))
+                context['province'] = pr
+            if address.city:
+                city = {'id': address.city.id,'name': address.city}
+                details.update({'city':city})
+                ci = City.objects.filter(~Q(name=address.city))
+                context['city'] = ci
+            if address.area:
+                area = {'id': address.area.id,'name': address.area}
+                details['area']: area
+            if address.address:
+                details['address']: address.address
             context['details'] = details
-        
+            
+        else:
+            province = Province.objects.all()
+            context['province'] = province
     return render(request,'address_set.html',context)
+
+def is_ajax(request):
+    return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
+
+def get_city_data(request):
+        if is_ajax(request):
+            province = request.GET.get("province")
+            if not province:
+                return
+            products = City.objects.filter(province = province).values()
+            return JsonResponse({'data': list(products)})
+        
+        return HttpResponse('Wrong request')
+    
+def get_area_data(request):
+        if is_ajax(request):
+            city = request.GET.get("city")
+            if not city:
+                return
+            products = Area.objects.filter(city = city).values()
+            return JsonResponse({'data': list(products)})
+        
+        return HttpResponse('Wrong request')
+    
+def save_user_address(request):
+    if is_ajax(request):
+        province = request.GET.get("province")
+        city = request.GET.get("city")
+        area = request.GET.get("area")
+        house = request.GET.get("house")
+        print(province)
+        customer = request.user.customer
+        CustomerAddress.objects.filter(customer=customer).update(province=province  or '',city= city or '',area = area or '',address=house or '')
