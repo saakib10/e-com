@@ -53,15 +53,16 @@ def set_address_for_customer(request):
                 ci = City.objects.filter(~Q(name=address.city))
                 context['city'] = ci
             if address.area:
-                area = {'id': address.area.id,'name': address.area}
-                details['area']: area
+                area = {'id': address.area.id,'name': address.area.name}
+                details.update({'area':area})
             if address.address:
-                details['address']: address.address
+                details.update({'address':address.address})
             context['details'] = details
             
         else:
             province = Province.objects.all()
             context['province'] = province
+        print(context)
     return render(request,'address_set.html',context)
 
 def is_ajax(request):

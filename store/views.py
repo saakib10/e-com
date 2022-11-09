@@ -153,6 +153,8 @@ def view_details(request,id):
         order = {'get_cart_total': 0, 'get_cart_items': 0}
         cartItems = 0
     details = Product.objects.get(pk = id)
-    contex = {'details':details,'cartItems':cartItems,'items':items}
+    print(details.category)
+    related_product = Product.objects.filter(category = details.category)
+    contex = {'details':details,'cartItems':cartItems,'items':items,'products':related_product}
     return render(request,'details.html',contex)
 

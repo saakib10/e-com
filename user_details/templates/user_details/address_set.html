@@ -163,7 +163,9 @@
             </select>
             <label>Address</label>
             {% if details.address %}
-                <input class="house" type="text" name="address" value = {{ details.address }} >
+                <input class="house" type="text" name="address" value = "{{ details.address }}">
+            {% else %}
+                <input class="house" type="text" name="address">
             {% endif %}
             
         </div>
