@@ -21,7 +21,8 @@ def home(request):
         order = {'get_cart_total': 0, 'get_cart_items': 0}
         cartItems = 0
         s_image = HomepageSlideshow.objects.all()
-    contex = {'items': items,'order':order,'cartItems':cartItems,'images':s_image}
+    category = Category.objects.all()
+    contex = {'items': items,'order':order,'cartItems':cartItems,'images':s_image,'category':category}
     return render(request,'home.html',contex)
 
 def cart(request):
