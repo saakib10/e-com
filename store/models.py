@@ -4,6 +4,27 @@ from django.contrib.auth.models import User
 
 class Category(models.Model):
     title = models.CharField(max_length=50 , blank=True,null=True)
+    category_image = models.ImageField(null = True, blank = True)
+
+    YES = 'YE'
+    NO = 'NO'
+    CATEGORY_FEATURE = [
+        (YES, 'Yes'),
+        (NO, 'No')
+    ]
+    category_feature = models.CharField(
+        max_length=2,
+        choices=CATEGORY_FEATURE,
+        default=NO,
+    )
+
+    @property
+    def image_front(self):
+        try:
+            url = self.category_image.url
+        except:
+            url = ''
+        return url
 
     def __str__(self):
         return self.title
