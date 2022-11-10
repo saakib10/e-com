@@ -26,13 +26,11 @@
 
                         </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="cart-body">
                         {% for item in items %}
                         <tr>
                             <td class="thumbnail-img">
-<!--                                <a href="#">-->
                                     <img class="img-fluid" src="{{ item.product.imagesURL }}" alt=""/>
-<!--                                </a>-->
                             </td>
                             <td class="name-pr">
                                 <a href="#">
@@ -47,9 +45,9 @@
                                 <div style="flex:1">
                                     <p class="quantity">{{ item.quantity }}</p>
                                     <div class="quantity">
-                                        <img data-product= {{item.product.id}} data-action="add" class="chg-quantity update-cart" src="{% static  'images/arrow-up.png' %}">
+                                        <img data-product= {{item.product.id}} data-action="add" class="btttn chg-quantity" src="{% static  'images/arrow-up.png' %}">
 
-							            <img data-product= {{item.product.id}} data-action="remove" class="chg-quantity update-cart" src="{% static  'images/arrow-down.png' %}">
+							            <img data-product= {{item.product.id}} data-action="remove" class="btttn chg-quantity" src="{% static  'images/arrow-down.png' %}">
 						            </div>
 					            </div>
 

@@ -74,28 +74,34 @@ def checkout(request):
     contex = {'items': items,'order': order,'cartItems': cartItems}
     return render(request,'checkout.html',contex)
 
+def is_ajax(request):
+    return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
+
 def update_item(request):
+    if is_ajax(request):
+        productId = request.GET.get("productId")
+        action = request.GET.get("action")
 
-    data = json.loads(request.body)
-    productId = int(data['productId'])
-    action = data['action']
 
+        customer = request.user.customer
+        product = Product.objects.get(id=productId)
+        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        orderItem, created = OrderItem.objects.get_or_create(order=order, product=product)
 
-    customer = request.user.customer
-    product = Product.objects.get(id=productId)
-    order, created = Order.objects.get_or_create(customer=customer, complete=False)
-    orderItem, created = OrderItem.objects.get_or_create(order=order, product=product)
+        if action == 'add':
+            orderItem.quantity = (orderItem.quantity + 1)
+        elif action == 'remove':
+            orderItem.quantity = (orderItem.quantity - 1)
 
-    if action == 'add':
-        orderItem.quantity = (orderItem.quantity + 1)
-    elif action == 'remove':
-        orderItem.quantity = (orderItem.quantity - 1)
-
-    orderItem.save()
-    if orderItem.quantity <= 0:
-        orderItem.delete()
-
-    return JsonResponse('Item is added', safe=False)
+        orderItem.save()
+        if orderItem.quantity <= 0:
+            orderItem.delete()
+            
+        items = order.orderitem_set.all()
+        cartItems = order.get_cart_items
+        
+        
+    return JsonResponse({'data': cartItems})
 
 
 def processOrder(request):
