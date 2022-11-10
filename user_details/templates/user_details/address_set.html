@@ -5,7 +5,7 @@
         html, body {
             min-height: 100%;
             }
-            body, div, form, input, select, p { 
+            body, div, .form, input, select, p { 
             padding: 0;
             margin: 0;
             outline: none;
@@ -33,7 +33,7 @@
             padding: 25px;
             background: rgba(0, 0, 0, 0.5); 
             }
-            .left-part, form {
+            .left-part, .form {
             padding: 25px;
             }
             .left-part {
@@ -42,7 +42,7 @@
             .fa-graduation-cap {
             font-size: 72px;
             }
-            form {
+            .form {
             background: rgba(0, 0, 0, 0.7); 
             }
             .title {
@@ -108,9 +108,9 @@
             }
             .main-block {
             flex-direction: row;
-            height: calc(100% - 50px);
+            height: calc(100% - 368px);
             }
-            .left-part, form {
+            .left-part, .form {
             flex: 1;
             height: auto;
             }
@@ -131,40 +131,109 @@
           <a class="btn-item" href="https://www.w3docs.com/quiz/#">Select Quiz</a>
         </div>
       </div>
-      <form action="/">
+      <div class="form" action="/">
         <div class="title">
           <i class="fas fa-pencil-alt"></i> 
-          <h2 class="text-white">Register here</h2>
+          <h2 class="text-white">Set Your Address Here</h2>
         </div>
         <div class="info">
             <label>Province</label>
-            <select id="province">
-                {% if details.province %}
-                    <option value="{{ details.province }}"> {{ details.province }} </option>
-                {% endif %}
-                <option value="course-type"></option>
+            <select id="province" class="province">
+                  {% if details.province %}
+                      <option value="{{ details.province.id }}">{{ details.province.name }}</option>
+                  {% endif %}
+                {% for x in province %}
+                  <option value="{{ x.id }}">{{ x.name }}</option>
+                {% endfor %}
             </select>
             <label>City</label>
-            <select>
+            <select id = "city" class="city">
                 {% if details.city %}
-                    <option value="{{ details.city }}"> {{ details.city }} </option>
+                    <option value="{{ details.city.id }}"> {{ details.city.name }} </option>
                 {% endif %}
+                {% for x in city %}
+                  <option value="{{ x.id }}">{{ x.name }}</option>
+                {% endfor %}
             </select>
             <label>Area</label>
-            <select>
+            <select id = "area" class="area">
                 {% if details.area %}
-                    <option value="{{ details.area }}"> {{ details.area }} </option>
+                    <option value="{{ details.area.id }}"> {{ details.area.name }} </option>
                 {% endif %}
             </select>
             <label>Address</label>
             {% if details.address %}
-                <input class="fname" type="text" name="address" value = {{ details.address }}>
+                <input class="house" type="text" name="address" value = "{{ details.address }}">
+            {% else %}
+                <input class="house" type="text" name="address">
             {% endif %}
             
         </div>
         <button class="sub" type="submit" href="/">Submit</button>
-      </form>
+      </div>
     </div>
     </div>
 </div>
 {% endblock content %}
+
+
+{% block js %}
+  <script>
+    $(document).ready(function() {
+      $('.sub').on('click',function(){
+        let province = $('.province').val()
+        let city = $('.city').val()
+        let area = $('.area').val()
+        let house = $('.house').val()
+        $.ajax({
+          url: '{% url "save" %}',
+          type: 'GET',
+          data : {
+                  'province': province,
+                  'city':city,
+                  'area':area,
+                  'house':house
+          },
+        })
+      })
+      
+      $('#province').on('change', function() {
+        $('.city').html(null)
+        $('.area').html(null)
+        let province = $('.province').val()
+        $.ajax({
+          url: '{% url "province" %}',
+          type: 'GET',
+          data : {
+                  'province': province
+          },
+          success: function(resp){
+              resp.data.forEach(x => {
+                console.log(x)
+                $(`<option value="${ x.id }"> ${ x.name } </option>`).appendTo($('.city'))
+              });
+              }
+      });
+      })
+      $('#city').on('change', function() {
+        $('.area').html(null)
+        let city = $('.city').val()
+        console.log(city)
+        $.ajax({
+          url: '{% url "city" %}',
+          type: 'GET',
+          data : {
+                  'city': city
+          },
+          success: function(resp){
+              resp.data.forEach(x => {
+                console.log(x)
+                $(`<option value="${ x.id }"> ${ x.name } </option>`).appendTo($('.area'))
+              });
+              }
+      });
+      })
+    })
+    
+  </script>
+{% endblock js%}

@@ -1,64 +1,96 @@
 {% load static %}
-<header class="main-header">
-        <!-- Start Navigation -->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-default bootsnav">
-            <div class="container">
-                <!-- Start Header Navigation -->
-                <div class="navbar-header">
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
-                    <i class="fa fa-bars"></i>
-                </button>
-                    <a class="navbar-brand" href="index.html"><img src="images/logo3.jpg" class="logo" alt=""></a>
-                </div>
-                <!-- End Header Navigation -->
+<header id="header" class="full-header header-size-md">
+			<div id="header-wrap">
+				<div class="container">
+					<div class="header-row justify-content-lg-between">
 
-                <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse" id="navbar-menu">
-                    <ul class="nav navbar-nav ml-auto" data-in="fadeInDown" data-out="fadeOutUp">
-                        <li class="nav-item active"><a class="nav-link" href="index.html">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
+						<!-- Logo
+						============================================= -->
+						<div id="logo" class="me-lg-4">
+							<a href="demo-shop.html" class="standard-logo"><img src="demos/shop/images/logo.png" alt="Canvas Logo"></a>
+							<a href="demo-shop.html" class="retina-logo"><img src="demos/shop/images/logo@2x.png" alt="Canvas Logo"></a>
+						</div><!-- #logo end -->
 
+						<div class="header-misc">
 
-
-
-
-                        <li class="dropdown">
-                            <a href="{% url 'shop' %}" class="nav-link dropdown-toggle arrow" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">SHOP</a>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <ul class="dropdown-menu">
-
-                                    <li><a href="{% url 'shop' %}">Products</a></li>
-                                    <li><a class="dropdown-item" href="{% url 'cart' %}">Cart</a></li>
-                                    <li><a class="dropdown-item" href="#">Checkout</a></li>
-                                    <li><a class="dropdown-item" href="#">My Account</a></li>
-
-                                </ul>
-
-                            </div>
-                        </li>
-
-                    </ul>
-                </div>
-                <!-- /.navbar-collapse -->
-
-                <!-- Start Atribute Navigation -->
-                <div class="attr-nav">
+							<!-- Top Search
+							============================================= -->
+							<div id="top-account mt-5">
+								<a href="#modal-register" data-lightbox="inline" style="margin-right: 14px;"><i class="icon-line2-user me-1 position-relative" style="top: 1px;"></i><span class="d-none d-sm-inline-block font-primary fw-medium">Login</span></a>
+								<a href="#modal-register" data-lightbox="inline" style="margin-right: 14px;"></i><span class="d-none d-sm-inline-block font-primary fw-medium">Register</span></a>
+								<a href="#modal-register" data-lightbox="inline"></i><span class="d-none d-sm-inline-block font-primary fw-medium">Account</span></a>
 
 
+							</div><!-- #top-search end -->
 
-							<a href="{% url 'cart' %}">
+							<!-- Top Cart
+							============================================= -->
+							<div id="top-cart" class="header-misc-icon d-none d-sm-block">
+								<a href="#" id="top-cart-trigger"><i class="icon-line-bag"></i><span class="top-cart-number">5</span></a>
+								<div class="top-cart-content">
+									<div class="top-cart-title">
+										<h4>Shopping Cart</h4>
+									</div>
+									<div class="top-cart-items">
+										<div class="top-cart-item">
+											<div class="top-cart-item-image">
+												<a href="#"><img src="images/shop/small/1.jpg" alt="Blue Round-Neck Tshirt" /></a>
+											</div>
+											<div class="top-cart-item-desc">
+												<div class="top-cart-item-desc-title">
+													<a href="#">Blue Round-Neck Tshirt with a Button</a>
+													<span class="top-cart-item-price d-block">$19.99</span>
+												</div>
+												<div class="top-cart-item-quantity">x 2</div>
+											</div>
+										</div>
+										<div class="top-cart-item">
+											<div class="top-cart-item-image">
+												<a href="#"><img src="images/shop/small/6.jpg" alt="Light Blue Denim Dress" /></a>
+											</div>
+											<div class="top-cart-item-desc">
+												<div class="top-cart-item-desc-title">
+													<a href="#">Light Blue Denim Dress</a>
+													<span class="top-cart-item-price d-block">$24.99</span>
+												</div>
+												<div class="top-cart-item-quantity">x 3</div>
+											</div>
+										</div>
+									</div>
+									<div class="top-cart-action">
+										<span class="top-checkout-price">$114.95</span>
+										<a href="#" class="button button-3d button-small m-0">View Cart</a>
+									</div>
+								</div>
+							</div><!-- #top-cart end -->
 
-								<span class="cart badge">3</span>
-                                <P>Cart</P>
+							<!-- Top Search
+							============================================= -->
+							<div id="top-search" class="header-misc-icon">
+								<a href="#" id="top-search-trigger"><i class="icon-line-search"></i><i class="icon-line-cross"></i></a>
+							</div><!-- #top-search end -->
 
-							</a>
+						</div>
 
-                </div>
-                <!-- End Atribute Navigation -->
-            </div>
-            <!-- Start Side Menu -->
-            <!-- End Side Menu -->
-        </nav>
-        <!-- End Navigation -->
-    </header>
+						<div id="primary-menu-trigger">
+							<svg class="svg-trigger" viewBox="0 0 100 100"><path d="m 30,33 h 40 c 3.722839,0 7.5,3.126468 7.5,8.578427 0,5.451959 -2.727029,8.421573 -7.5,8.421573 h -20"></path><path d="m 30,50 h 40"></path><path d="m 70,67 h -40 c 0,0 -7.5,-0.802118 -7.5,-8.365747 0,-7.563629 7.5,-8.634253 7.5,-8.634253 h 20"></path></svg>
+						</div>
+
+						<!-- Primary Navigation
+						============================================= -->
+						<nav class="primary-menu with-arrows me-lg-auto">
+
+							<ul class="menu-container">
+								<li class="menu-item current"><a class="menu-link" href="#"><div>Home</div></a></li>
+						</nav><!-- #primary-menu end -->
+
+						<form class="top-search-form" action="search.html" method="get">
+							<input type="text" name="q" class="form-control" value="" placeholder="Type &amp; Hit Enter.." autocomplete="off">
+						</form>
+
+					</div>
+				</div>
+			</div>
+			<div class="header-wrap-clone"></div>
+		</header><!-- #header end -->
 

@@ -28,10 +28,40 @@
 								<a data-product ="{{ details.id }}" data-action="add" class="btn hvr-hover update-cart" data-fancybox-close="" href="#">Add to cart</a>
 							</div>
 						</div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane fade show active" id="grid-view">
+                    <h2><strong>Related Products</strong></h2>
+                    <div class="row">
+                         {% for product in products %}
+                        <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                            <div class="products-single fix">
+                                <div class="box-img-hover">
 
+                                    <img src="{{ product.imagesURL }}" class="thumbnail" alt="Image">
+                                    <div class="mask-icon">
+
+                                        <a data-product ="{{ product.id }}" data-action="add" class="cart update-cart"  href="#">Add to Cart</a>
+
+
+
+                                    </div>
+                                </div>
+                                <div class="why-text">
+                                    <h4>{{ product.name }}</h4>
+                                    <h5> $ {{ product.price }}</h5>
+                                    <a href="{% url 'details' product.id %}" style="float:right"class="btn hvr-hover"  href="#">Details</a>
+
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
 
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
