@@ -14,24 +14,38 @@ for (var i = 0; i < updateBtns.length; i++){
     }
 
 function updateUserOrder(productId,action){
-
-     var url = '/updateitem/'
-     fetch (url, {
-        method: 'POST',
-        headers : {
-            'Content-Type' : 'application/json',
-            'X-CSRFToken' : csrftoken,
-        },
-        body :JSON.stringify({'productId':productId,'action':action})
-
-     })
-     .then((response) => {
-        return response.json()
-     })
-     .then((data) => {
-        location.reload()
-     })
+      $("#cart-total").html(null)
+      $.ajax({
+            url: '/updateitem/',
+            type: 'GET',
+            data : {
+                    'productId': parseInt(productId),
+                    'action':action
+            },
+            success: function(resp){
+              console.log(resp)
+                $(`<span>${resp.data}</span>`).appendTo("#cart-total")
+                
+                }
+          });
+     
 }
+$(".btttn").on('click',function() {
+  $("#cart-total").html(null)
+  var productId = this.dataset.product
+  var action = this.dataset.action
+  $.ajax({
+        url: '/updateitem/',
+        type: 'GET',
+        data : {
+                'productId': parseInt(productId),
+                'action':action
+        },
+        success: function(resp){
+            location.reload()
+            }
+      });
+})
 
 $.ajax({
     url : '{% url "user" %}',

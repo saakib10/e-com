@@ -11,6 +11,9 @@ def get_user_order_items(request):
     if request.user.is_authenticated:
         context= {}
         customer = request.user.customer
+        order,created = Order.objects.get_or_create(customer = customer, complete = False)
+        cartItems = order.get_cart_items
+        context['cartItems'] = cartItems
         orders = Order.objects.filter(customer=customer, complete = True).values()
         context['total_order'] = len(orders)
         if orders:
@@ -38,6 +41,9 @@ def set_address_for_customer(request):
     if request.user.is_authenticated:
         context = {}
         customer = request.user.customer
+        order,created = Order.objects.get_or_create(customer = customer, complete = False)
+        cartItems = order.get_cart_items
+        context['cartItems'] = cartItems
         cmmt = CustomerAddress.objects.filter(customer = customer)
         if cmmt:
             address = CustomerAddress.objects.get(customer = customer)
