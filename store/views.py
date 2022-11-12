@@ -16,15 +16,26 @@ def home(request):
         order,created = Order.objects.get_or_create(customer = customer, complete = False)
         items = order.orderitem_set.all()
         cartItems = order.get_cart_items
-        s_image = HomepageSlideshow.objects.all()
+        if customer:
+            order_items = OrderItem.objects.filter(~Q(order=order.id)).values().order_by("-date_added")[:10]
+            items = []
+            for x in order_items:
+                item = Product.objects.get(id = x.get("product_id"))
+                data_dict = {'name':item.name,'image':item.imagesURL,'price':item.price,'id':item.id}
+                items.append(data_dict)
     else:
+        order_items = OrderItem.objects.all().order_by("-date_added")[:10]
         items = []
+        for x in order_items:
+            item = Product.objects.get(id = x.product_id)
+            data_dict = {'name':item.name,'image':item.imagesURL,'price':item.price,'id':item.id}
+            items.append(data_dict)
         order = {'get_cart_total': 0, 'get_cart_items': 0}
         cartItems = 0
-        s_image = HomepageSlideshow.objects.all()
+    s_image = HomepageSlideshow.objects.all()
+    
     category = Category.objects.all()
-    product = Product.objects.all()
-    contex = {'items': items,'order':order,'cartItems':cartItems,'images':s_image,'category':category,'products':product}
+    contex = {'items': items,'order':order,'cartItems':cartItems,'images':s_image,'category':category,'products':items or []}
     return render(request,'home.html',contex)
 
 def cart(request):
