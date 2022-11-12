@@ -8,7 +8,34 @@
                     <div id="carousel-example-1" class="single-product-slider carousel slide" data-ride="carousel">
                         <div class="carousel-inner" role="listbox">
                             <div class="carousel-item active"> <img class="d-block w-100" src="{{ details.imagesURL }}"> </div>
+                        </div>
+                    </div>
+                    <div class="widget clearfix">
 
+                        <h4>Recent Items</h4>
+                        <div class="posts-sm row col-mb-30" id="recent-shop-list-sidebar">
+                            {% for recent in recents %}
+                            <div class="entry col-12">
+                                <div class="grid-inner row g-0">
+                                    <div class="col-auto">
+                                        <div class="entry-image">
+                                            <a href="#"><img src="{{ recent.image }}" alt="Image"></a>
+                                        </div>
+                                    </div>
+                                    <div class="col ps-3">
+                                        <div class="entry-title">
+                                            <h4><a href="#">{{ recent.name }}</a></h4>
+                                        </div>
+                                        <div class="entry-meta no-separator">
+                                            <ul>
+                                                <li class="color">$19.99</li>
+                                                <li><i class="icon-star3"></i><i class="icon-star3"></i><i class="icon-star3"></i><i class="icon-star-empty"></i><i class="icon-star-empty"></i></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
                         </div>
 
                     </div>
@@ -31,38 +58,45 @@
                     </div>
                 </div>
             </div>
-            <div class="tab-content">
-                <div role="tabpanel" class="tab-pane fade show active" id="grid-view">
-                    <h2><strong>Related Products</strong></h2>
-                    <div class="row">
-                         {% for product in products %}
-                        <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3">
-                            <div class="products-single fix">
-                                <div class="box-img-hover">
-
-                                    <img src="{{ product.imagesURL }}" class="thumbnail" alt="Image">
-                                    <div class="mask-icon">
-
-                                        <a data-product ="{{ product.id }}" data-action="add" class="cart update-cart"  href="#">Add to Cart</a>
-
-
-
+            <div class="container clearfix">
+                <div class="fancy-title title-border title-center mb-4 mt-5">
+                    <h4>Related Product</h4>
+                </div>
+                <div class="row grid-6">
+                    {% for product in products %}
+                    <!-- Shop Item 
+                    ============================================= -->
+                    <div class="col-lg-2 col-md-3 col-6 px-2">
+                        <div class="product">
+                            <div class="product-image">
+                                <a href="#"><img src="{{ product.imagesURL }}" alt="Image 1"></a>
+                                <a href="#"><img src="{{ product.imagesURL }}" alt="Image 1"></a>
+                                <div class="sale-flash badge bg-danger p-2">Sale!</div>
+                                <div class="bg-overlay">
+                                    <div class="bg-overlay-content align-items-end justify-content-between" data-hover-animate="fadeIn" data-hover-speed="400">
+                                        <a data-product ="{{ product.id }}" data-action="add" class="btn btn-dark me-2 update-cart "><i class="icon-shopping-basket"></i></a>
+                                        <a href="demos/shop/ajax/shop-item.html" class="btn btn-dark" data-lightbox="ajax"><i class="icon-line-expand"></i></a>
                                     </div>
+                                    <div class="bg-overlay-bg bg-transparent"></div>
                                 </div>
-                                <div class="why-text">
-                                    <h4>{{ product.name }}</h4>
-                                    <h5> $ {{ product.price }}</h5>
-                                    <a href="{% url 'details' product.id %}" style="float:right"class="btn hvr-hover"  href="#">Details</a>
-
+                            </div>
+                            <div class="product-desc">
+                                <div class="product-title mb-1"><h3><a href="{% url 'details' product.id %}">{{ product.name }}</a></h3></div>
+                                <div class="product-price font-primary"><del class="me-1">$24.99</del> <ins>${{ product.price }}</ins></div>
+                                <div class="product-rating">
+                                    <i class="icon-star3"></i>
+                                    <i class="icon-star3"></i>
+                                    <i class="icon-star3"></i>
+                                    <i class="icon-star-half-full"></i>
+                                    <i class="icon-star-empty"></i>
                                 </div>
                             </div>
                         </div>
-                        {% endfor %}
-
                     </div>
+                    {% endfor %}
                 </div>
-
             </div>
+
         </div>
     </div>
 
