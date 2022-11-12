@@ -7,6 +7,7 @@ from django.template.loader import render_to_string
 from django.core.mail import send_mail
 from django.conf import settings
 from django.http import JsonResponse
+from django.db.models import Q
 
 
 def home(request):
@@ -22,7 +23,8 @@ def home(request):
         cartItems = 0
         s_image = HomepageSlideshow.objects.all()
     category = Category.objects.all()
-    contex = {'items': items,'order':order,'cartItems':cartItems,'images':s_image,'category':category}
+    product = Product.objects.all()
+    contex = {'items': items,'order':order,'cartItems':cartItems,'images':s_image,'category':category,'products':product}
     return render(request,'home.html',contex)
 
 def cart(request):
@@ -154,14 +156,19 @@ def view_details(request,id):
         customer = request.user.customer
         order,created = Order.objects.get_or_create(customer = customer, complete = False)
         cartItems = order.get_cart_items
-        items = order.orderitem_set.all()
     else:
         items = []
         order = {'get_cart_total': 0, 'get_cart_items': 0}
         cartItems = 0
     details = Product.objects.get(pk = id)
-    print(details.category)
     related_product = Product.objects.filter(category = details.category)
-    contex = {'details':details,'cartItems':cartItems,'items':items,'products':related_product}
+    recent_items = OrderItem.objects.filter(category = details.category).values().order_by("-date_added")[:4]
+    recents = []
+    for item in recent_items:
+        product = Product.objects.get(id = item.get("product_id"))
+        dict = {"name" : product.name,"image":product.imagesURL}
+        recents.append(dict)
+    contex = {'details':details,'cartItems':cartItems,'products':related_product,'recents':recents}
+    print(contex)
     return render(request,'details.html',contex)
 
