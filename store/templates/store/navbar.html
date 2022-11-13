@@ -1,74 +1,37 @@
 {% load static %}
-<header id="header" class="full-header header-size-md">
+<!-- Header
+		============================================= -->
+		<header id="header" class="full-header">
 			<div id="header-wrap">
 				<div class="container">
-					<div class="header-row justify-content-lg-between">
+					<div class="header-row">
 
 						<!-- Logo
 						============================================= -->
-						<div id="logo" class="me-lg-4">
-							<a href="demo-shop.html" class="standard-logo"><img src="demos/shop/images/logo.png" alt="Canvas Logo"></a>
-							<a href="demo-shop.html" class="retina-logo"><img src="demos/shop/images/logo@2x.png" alt="Canvas Logo"></a>
+						<div id="logo">
+							<a href="{% url 'home' %}" class="standard-logo" data-dark-logo="/images/logo3.jpg"><img src="/images/logo3.jpg" alt="Canvas Logo"></a>
+							<a href="{% url 'home' %}" class="retina-logo" data-dark-logo="/images/logo3.jpg"><img src="/images/logo3.jpg" alt="Canvas Logo"></a>
 						</div><!-- #logo end -->
 
 						<div class="header-misc">
 
 							<!-- Top Search
 							============================================= -->
-							<div id="top-account mt-5">
-								<a href="#modal-register" data-lightbox="inline" style="margin-right: 14px;"><i class="icon-line2-user me-1 position-relative" style="top: 1px;"></i><span class="d-none d-sm-inline-block font-primary fw-medium">Login</span></a>
-								<a href="#modal-register" data-lightbox="inline" style="margin-right: 14px;"></i><span class="d-none d-sm-inline-block font-primary fw-medium">Register</span></a>
-								<a href="#modal-register" data-lightbox="inline"></i><span class="d-none d-sm-inline-block font-primary fw-medium">Account</span></a>
-
-
+							<div id="top-search" class="header-misc-icon">
+								<a href="#" id="top-search-trigger"><i class="icon-line-search"></i><i class="icon-line-cross"></i></a>
 							</div><!-- #top-search end -->
 
 							<!-- Top Cart
 							============================================= -->
 							<div id="top-cart" class="header-misc-icon d-none d-sm-block">
-								<a href="#" id="top-cart-trigger"><i class="icon-line-bag"></i><span class="top-cart-number">5</span></a>
-								<div class="top-cart-content">
-									<div class="top-cart-title">
-										<h4>Shopping Cart</h4>
-									</div>
-									<div class="top-cart-items">
-										<div class="top-cart-item">
-											<div class="top-cart-item-image">
-												<a href="#"><img src="images/shop/small/1.jpg" alt="Blue Round-Neck Tshirt" /></a>
-											</div>
-											<div class="top-cart-item-desc">
-												<div class="top-cart-item-desc-title">
-													<a href="#">Blue Round-Neck Tshirt with a Button</a>
-													<span class="top-cart-item-price d-block">$19.99</span>
-												</div>
-												<div class="top-cart-item-quantity">x 2</div>
-											</div>
-										</div>
-										<div class="top-cart-item">
-											<div class="top-cart-item-image">
-												<a href="#"><img src="images/shop/small/6.jpg" alt="Light Blue Denim Dress" /></a>
-											</div>
-											<div class="top-cart-item-desc">
-												<div class="top-cart-item-desc-title">
-													<a href="#">Light Blue Denim Dress</a>
-													<span class="top-cart-item-price d-block">$24.99</span>
-												</div>
-												<div class="top-cart-item-quantity">x 3</div>
-											</div>
-										</div>
-									</div>
-									<div class="top-cart-action">
-										<span class="top-checkout-price">$114.95</span>
-										<a href="#" class="button button-3d button-small m-0">View Cart</a>
-									</div>
-								</div>
+								<a href="{% url 'cart' %}" >
+                                    <i class="icon-line-bag"></i>
+									<p class="cart-item-number">
+										<span class="top-cart-number">{{ cartItems }}</span>
+									</p>
+                                    
+                                </a>
 							</div><!-- #top-cart end -->
-
-							<!-- Top Search
-							============================================= -->
-							<div id="top-search" class="header-misc-icon">
-								<a href="#" id="top-search-trigger"><i class="icon-line-search"></i><i class="icon-line-cross"></i></a>
-							</div><!-- #top-search end -->
 
 						</div>
 
@@ -78,10 +41,48 @@
 
 						<!-- Primary Navigation
 						============================================= -->
-						<nav class="primary-menu with-arrows me-lg-auto">
+						<nav class="primary-menu">
 
 							<ul class="menu-container">
-								<li class="menu-item current"><a class="menu-link" href="#"><div>Home</div></a></li>
+								<li class="menu-item">
+									<a class="menu-link" href="#"><div>Categories</div></a>
+									<ul class="sub-menu-container">
+										{% for cate in category %}
+										<li class="menu-item">
+											<a class="menu-link" href="/shop/?category={{cate.id}}"><div><i class="icon-stack"></i>{{cate.title}}</div></a>
+										</li>
+										{% endfor %}
+									</ul>
+								</li>
+								<li class="menu-item">
+                                    <a class="menu-link" href="{% url 'home' %}"><div>Home</div></a>
+                                </li>
+                                <li class="menu-item">
+                                    <a class="menu-link" href="{% url 'about' %}"><div>About Us</div></a>
+                                </li>
+								<li class="menu-item">
+                                    <a class="menu-link" href="{% url 'shop' %}"><div>Items</div></a>
+                                </li>
+								{% if not request.user.is_authenticated %}
+								<li class="menu-item">
+									<a class="menu-link" href="{% url 'signup' %}"><div><i class="icon-stack"></i>Register</div></a>
+								</li>
+								{% else %}
+								<li class="menu-item">
+									<a class="menu-link" href="#"><div>User</div></a>
+									<ul class="sub-menu-container">
+										<li class="menu-item">
+											<a class="menu-link" href="{% url 'user' %}"><div><i class="icon-stack"></i>Primery Details</div></a>
+										</li>
+										<li class="menu-item">
+											<a class="menu-link" href="{% url 'address_set' %}"><div><i class="icon-umbrella"></i>Address Details</div></a>
+											
+										</li>
+									</ul>
+								</li>
+								{% endif %}
+							</ul>
+
 						</nav><!-- #primary-menu end -->
 
 						<form class="top-search-form" action="search.html" method="get">
@@ -93,4 +94,3 @@
 			</div>
 			<div class="header-wrap-clone"></div>
 		</header><!-- #header end -->
-
