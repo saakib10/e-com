@@ -14,7 +14,7 @@ for (var i = 0; i < updateBtns.length; i++){
     }
 
 function updateUserOrder(productId,action){
-      $("#cart-total").html(null)
+      $(".cart-item-number").html(null)
       $.ajax({
             url: '/updateitem/',
             type: 'GET',
@@ -24,7 +24,7 @@ function updateUserOrder(productId,action){
             },
             success: function(resp){
               console.log(resp)
-                $(`<span>${resp.data}</span>`).appendTo("#cart-total")
+                $(`<span class="top-cart-number">${resp.data}</span>`).appendTo(".cart-item-number")
                 
                 }
           });
