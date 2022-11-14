@@ -6,6 +6,13 @@
 <div class="shop-box-inner">
         <div class="container">
             <div class="container clearfix">
+                <div class="modal fade bs-example-modal-lg pop-up-item" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            
+                        </div>
+                    </div>
+                </div>
 
                 <div class="row grid-6">
                     {% for product in products %}
@@ -20,14 +27,17 @@
                                 <div class="bg-overlay">
                                     <div class="bg-overlay-content align-items-end justify-content-between" data-hover-animate="fadeIn" data-hover-speed="400">
                                         <a data-product ="{{ product.id }}" data-action="add" class="btn btn-dark me-2 update-cart "><i class="icon-shopping-basket"></i></a>
-                                        <a href="demos/shop/ajax/shop-item.html" class="btn btn-dark" data-lightbox="ajax"><i class="icon-line-expand"></i></a>
+                                        <button class="btn btn-dark me-2 pop-up" data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg" onclick="item_popup({{ product.id }})"><i class="icon-line-expand"></i></button>
                                     </div>
                                     <div class="bg-overlay-bg bg-transparent"></div>
                                 </div>
                             </div>
                             <div class="product-desc">
                                 <div class="product-title mb-1"><h3><a href="{% url 'details' product.id %}">{{ product.name }}</a></h3></div>
-                                <div class="product-price font-primary"><del class="me-1">$24.99</del> <ins>${{ product.price }}</ins></div>
+                                <p class="id-num hidden">{{ product.id}}</p>
+                                <div class="product-price font-primary"><ins>${{ product.price }}</ins></div>
+
+                                
                                 <div class="product-rating">
                                     <i class="icon-star3"></i>
                                     <i class="icon-star3"></i>
@@ -41,63 +51,6 @@
                     {% endfor %}
                 </div>
             </div>
-            {% comment %} <div class="row">
-                <div class="col-xl-9 col-lg-9 col-sm-12 col-xs-12 shop-content-right">
-                    <div class="right-product-box">
-                        <div class="product-categorie-box">
-                            <div class="tab-content">
-                                <div role="tabpanel" class="tab-pane fade show active" id="grid-view">
-                                    <div class="row">
-                                         {% for product in products %}
-                                        <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4">
-                                            <div class="products-single fix">
-                                                <div class="box-img-hover">
-                                                    <img src="{{ product.imagesURL }}" class="thumbnail" alt="Image">
-                                                    <div class="mask-icon">
-                                                        <p data-product ="{{ product.id }}" data-action="add" class="cart update-cart">Add to Cart</p>
-                                                    </div>
-                                                </div>
-                                                <div class="why-text">
-                                                    <h4>{{ product.name }}</h4>
-                                                    <h5> $ {{ product.price }}</h5>
-                                                    <a href="{% url 'details' product.id %}" style="float:right"class="btn hvr-hover"  href="#">Details</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        {% endfor %}
-
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-				<div class="col-xl-3 col-lg-3 col-sm-12 col-xs-12 sidebar-shop-left">
-                    <div class="product-categori">
-                        <div class="search-product">
-
-                        </div>
-                        <div class="filter-sidebar-left">
-                            <div class="title-left">
-                                <h3>Categories</h3>
-                            </div>
-                            <div class="list-group list-group-collapse list-group-sm list-group-tree" id="list-group-men" data-children=".sub-men">
-                                {% for category in category %}
-                                <a href="/shop/?category={{category.id}}" class="list-group-item list-group-item-action"> {{ category.title }}  <small class="text-muted"> </small></a>
-                                {% endfor %}
-                                <!--<a href="#" class="list-group-item list-group-item-action"> Laptop <small class="text-muted">(11)</small></a>
-                                <a href="#" class="list-group-item list-group-item-action"> switch  <small class="text-muted">(150) </small></a>
-                                <a href="#" class="list-group-item list-group-item-action"> Router <small class="text-muted">(11)</small></a>
-                                <a href="#" class="list-group-item list-group-item-action"> Cable <small class="text-muted">(22)</small></a>-->
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div> {% endcomment %}
         </div>
     </div>
 
@@ -105,6 +58,6 @@
 
 {% endblock content %}
 
-<script>
-    console.log("ppppppppp")
-</script>
+{% block js %}
+
+{% endblock js %}
