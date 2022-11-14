@@ -49,7 +49,7 @@
 									<ul class="sub-menu-container">
 										{% for cate in category %}
 										<li class="menu-item">
-											<a class="menu-link" href="/shop/?category={{cate.id}}"><div><i class="icon-stack"></i>{{cate.title}}</div></a>
+											<a class="menu-link" href="/shop/?category={{cate.id}}"><div>{{cate.title}}</div></a>
 										</li>
 										{% endfor %}
 									</ul>
@@ -65,17 +65,17 @@
                                 </li>
 								{% if not request.user.is_authenticated %}
 								<li class="menu-item">
-									<a class="menu-link" href="{% url 'signup' %}"><div><i class="icon-stack"></i>Register</div></a>
+									<a class="menu-link" href="{% url 'signin' %}"><div>Register</div></a>
 								</li>
 								{% else %}
 								<li class="menu-item">
 									<a class="menu-link" href="#"><div>User</div></a>
 									<ul class="sub-menu-container">
 										<li class="menu-item">
-											<a class="menu-link" href="{% url 'user' %}"><div><i class="icon-stack"></i>Primery Details</div></a>
+											<a class="menu-link" href="{% url 'user' %}"><div>Primery Details</div></a>
 										</li>
 										<li class="menu-item">
-											<a class="menu-link" href="{% url 'address_set' %}"><div><i class="icon-umbrella"></i>Address Details</div></a>
+											<a class="menu-link" href="{% url 'address_set' %}"><div>Address Details</div></a>
 											
 										</li>
 									</ul>

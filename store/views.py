@@ -17,7 +17,7 @@ def home(request):
         items = order.orderitem_set.all()
         cartItems = order.get_cart_items
         if customer:
-            order_items = OrderItem.objects.filter(~Q(order=order.id)).values().order_by("-date_added")[:10]
+            order_items = OrderItem.objects.filter(~Q(order=order.id)).values().order_by("-date_added")[:15]
             items = []
             for x in order_items:
                 item = Product.objects.get(id = x.get("product_id"))
@@ -183,3 +183,10 @@ def view_details(request,id):
     print(contex)
     return render(request,'details.html',contex)
 
+def item_popup_details(request):
+    if is_ajax(request):
+        product_id = int(request.GET.get("product_id"))
+        product = Product.objects.get(id = product_id)
+        print(product.imagesURL)
+        item = {"id":product.id,'name':product.name,"image":product.imagesURL,"price":product.price,"description":product.descriptions}
+    return JsonResponse({'data': item})

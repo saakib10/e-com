@@ -90,7 +90,13 @@
     {% include "navbar.html" %}
 
 
-
+    <div class="modal fade bs-example-modal-lg pop-up-item" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                
+            </div>
+        </div>
+    </div>
 
     {% block content %}
 
@@ -146,7 +152,7 @@
     {% block js %}
 
     {% endblock js %}
-
+    
     <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
     <script src="{% static 'js/popper.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
@@ -170,6 +176,9 @@
 	<script src="{% static 'js/jquery.js' %}"></script>
 	<script src="{% static 'js/plugins.min.js' %}"></script>
     <script src="{% static 'js/functions.js' %}"></script>
+
+    {% comment %} my custom script {% endcomment %}
+    <script src="{% static 'js/customizescript.js' %}"></script>
 
 
 
