@@ -23,9 +23,7 @@ function updateUserOrder(productId,action){
                     'action':action
             },
             success: function(resp){
-              console.log(resp)
                 $(`<span class="top-cart-number">${resp.data}</span>`).appendTo(".cart-item-number")
-                
                 }
           });
      
