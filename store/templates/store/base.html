@@ -87,76 +87,7 @@
 
 <body>
 
-        <header class="main-header">
-        <!-- Start Navigation -->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-default bootsnav">
-            <div class="container">
-                <!-- Start Header Navigation -->
-                <div class="navbar-header">
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
-                    <i class="fa fa-bars"></i>
-                </button>
-                    <img src="/images/logo3.jpg" width="100px;" class="logo" alt="">
-                </div>
-                <!-- End Header Navigation -->
-
-                <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse" id="navbar-menu">
-
-                    <ul class="nav navbar-nav ml-auto" data-in="fadeInDown" data-out="fadeOutUp">
-
-                        <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'shop' %}">Shop</a></li>
-                        {% if not request.user.is_authenticated %}
-                        <li class="nav-item"><a class="nav-link" href="{% url 'signin' %}">Register</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Log In</a></li>
-                        {% else %}
-                        <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Sign Out</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'user' %}">User</a></li>
-                        {% endif %}
-
-                    </ul>
-                </div>
-                <!-- /.navbar-collapse -->
-
-                <!-- Start Atribute Navigation -->
-                <div class="attr-nav">
-                    <ul>
-
-                        <li class="side-menu">
-                            <a href="{% url 'cart' %}">
-                                <p id="cart-total"><span>{{ cartItems }}</span></p>
-                                <img id="cart-icon" src="{% static 'images/cart.png' %}">
-
-                            </a></li>
-                    </ul>
-                </div>
-                <!-- End Atribute Navigation -->
-            </div>
-            <!-- Start Side Menu -->
-            <div class="side">
-                <a href="#" class="close-side"><i class="fa fa-times"></i></a>
-                <li class="cart-box">
-                    <ul class="cart-list">
-                        {% for item in items %}
-                        <li>
-                            <a href="#" class="photo"><img src="{{ item.product.imagesURL }}" class="cart-thumb" alt="" /></a>
-                            <h6><a href="#">{{ item.product.name }} </a></h6>
-                            <p>{{ item.quantity }}x - <span class="price">$ {{ item.product.price }}</span></p>
-                        </li>
-                        {% endfor %}
-                        <li class="total">
-                            <a href="{% url 'cart' %}" class="btn btn-default hvr-hover btn-cart">VIEW CART</a>
-                            <span class="float-right"><strong>Total</strong>: $ {{ order.get_cart_total }}</span>
-                        </li>
-                    </ul>
-                </li>
-            </div>
-            <!-- End Side Menu -->
-        </nav>
-        <!-- End Navigation -->
-    </header>
+    {% include "navbar.html" %}
 
 
 
