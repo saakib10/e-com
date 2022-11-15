@@ -52,20 +52,18 @@ def cart(request):
         
         
         
-        
-        
-        
-    ms_items = OrderItem.objects.all()
-    item_count = []
-    item_wise_count = []
-    for x in ms_items:
-        item = Product.objects.get(id = x.product.id)
-        item_count.append(item.id)
-    for x in list(dict.fromkeys(item_count)):
-        total_order = item_count.count(x)
-        data_dict = {x:total_order}
-        item_wise_count.append(data_dict)
-    print(item_wise_count)
+    n_c_list = []  
+    n_c_order = Order.objects.filter(complete = False).values()
+    for x in n_c_order:
+        print(type(x.get("id")))
+        n_c_list.append(x.get("id"))
+    # order_item = OrderItem
+    print(n_c_list)
+    order_items = OrderItem.objects.all()
+    for x in order_items:
+        if x.order.id not in n_c_list:
+            print(x.order)
+
         
         
         
