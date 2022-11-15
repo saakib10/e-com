@@ -8,6 +8,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.http import JsonResponse
 from django.db.models import Q
+from django.shortcuts import get_object_or_404
 
 
 def home(request):
@@ -48,9 +49,27 @@ def cart(request):
         items = []
         order = {'get_cart_total': 0, 'get_cart_items': 0}
         cartItems = 0
-    m_item = OrderItem.objects.raw('select * from store_orderitem')
-    for x in m_item:
-        print(x)
+        
+        
+        
+        
+        
+        
+    ms_items = OrderItem.objects.all()
+    item_count = []
+    item_wise_count = []
+    for x in ms_items:
+        item = Product.objects.get(id = x.product.id)
+        item_count.append(item.id)
+    for x in list(dict.fromkeys(item_count)):
+        total_order = item_count.count(x)
+        data_dict = {x:total_order}
+        item_wise_count.append(data_dict)
+    print(item_wise_count)
+        
+        
+        
+    
     contex = {'items': items,'order':order,'cartItems':cartItems}
     return render(request,'cart.html',contex)
 

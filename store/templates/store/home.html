@@ -1,90 +1,181 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-        <div id="slides-shop" class="cover-slides">
-                <ul class="slides-container">
-                    {% for item in images %}
-                    <li class="text-center">
-                        <img src="{{ item.imagesURL }}" alt="">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <h1 class="m-b-20"><strong>Welcome To <br> Miniport</strong></h1>
-                                    <p class="m-b-40">Grab your product with premium quality  <br> With extra offer.</p>
-                                    <p><a class="btn hvr-hover" href="{% url 'shop' %}">Shop New</a></p>
-                                </div>
+<section id="slider" class="slider-element swiper_wrapper customjs canvas-slider canvas-slider-grid min-vh-60 min-vh-md-100">
+    <div class="slider-inner">
+        <div class="swiper-container swiper-parent">
+            <div class="swiper-wrapper">
+                {% for item in images %}
+                <div class="swiper-slide">
+                    <a href="#">
+                        <div class="bg-overlay">
+                            <div class="bg-overlay-content dark">
+                            </div>
+                            <div class="bg-overlay-content text-overlay-mask dark align-items-end justify-content-start">
+                                <h4 class="mb-0">{{ item.heading }}</h4>
                             </div>
                         </div>
-                    </li>
-                    {% endfor %}
-                </ul>
+                    </a>
+                    <div class="swiper-slide-bg" style="background-image: url('{{ item.imagesURL}}');"></div>
+                </div>
+                {% endfor %}
             </div>
-            <div class="container clearfix">
+            <div class="slider-arrow-left"><i class="icon-angle-left"></i></div>
+            <div class="slider-arrow-right"><i class="icon-angle-right"></i></div>
+        </div>
 
-                <!-- Shop Categories
-                ============================================= -->
-                <div class="fancy-title title-border title-center mb-4 mt-5">
-                    <h4>Shop popular categories</h4>
+    </div>
+</section>
+
+<div class="container clearfix">
+
+<!-- Shop Categories
+============================================= -->
+<div class="fancy-title title-border title-center mb-4 mt-5">
+    <h4>Shop popular categories</h4>
+</div>
+
+<div class="row shop-categories clearfix">
+    {% for cate in category %}
+    <div class="col-lg-4">
+        <a href="/shop/?category={{cate.id}}" style="background: url('{{ cate.image_front }}') no-repeat center center; background-size: cover;">
+            <div class="vertical-middle dark center">
+                <div class="heading-block m-0 border-0">
+                    <h3 class="nott fw-semibold ls0">{{ cate.title }}</h3>
+                    <small class="button bg-white text-dark button-light button-mini">Browse Now</small>
                 </div>
-
-                <div class="row shop-categories clearfix">
-                    {% for cate in category %}
-                    <div class="col-lg-4">
-                        <a href="/shop/?category={{cate.id}}" style="background: url('{{ cate.image_front }}') no-repeat center center; background-size: cover;">
-                            <div class="vertical-middle dark center">
-                                <div class="heading-block m-0 border-0">
-                                    <h3 class="nott fw-semibold ls0">{{ cate.title }}</h3>
-                                    <small class="button bg-white text-dark button-light button-mini">Browse Now</small>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    {% endfor %}
-                    
-                </div>
-
-                <!-- Featured Carousel
-                ============================================= -->
-                
-		
-                <div class="fancy-title title-border topmargin-sm mb-4 title-center">
-                    <h4>Recent Order Items</h4>
-                </div>
-
-                <div class="row grid-6">
-                    {% for product in products %}
-                    <!-- Shop Item 
-                    ============================================= -->
-                    <div class="col-lg-2 col-md-3 col-6 px-2">
-                        <div class="product">
-                            <div class="product-image">
-                                <a href="#"><img src="{{ product.image }}" alt="Image 1"></a>
-                                <a href="#"><img src="{{ product.image }}" alt="Image 1"></a>
-                                <div class="sale-flash badge bg-danger p-2">Sale!</div>
-                                <div class="bg-overlay">
-                                    <div class="bg-overlay-content align-items-end justify-content-between" data-hover-animate="fadeIn" data-hover-speed="400">
-                                        <p data-product ="{{ product.id }}" data-action="add" class="btn btn-dark me-2 update-cart "><i class="icon-shopping-basket"></i></p>
-                                        <button class="btn btn-dark me-2 pop-up" data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg" onclick="item_popup({{ product.id }})"><i class="icon-line-expand"></i></button>
-                                    </div>
-                                    <div class="bg-overlay-bg bg-transparent"></div>
-                                </div>
-                            </div>
-                            <div class="product-desc">
-                                <div class="product-title mb-1"><h3><a href="{% url 'details' product.id %}">{{ product.name }}</a></h3></div>
-                                <p class="id-num hidden">{{ product.id}}</p>
-                                <div class="product-price font-primary"><ins>${{ product.price }}</ins></div>
-                                <div class="product-rating">
-                                    <i class="icon-star3"></i>
-                                    <i class="icon-star3"></i>
-                                    <i class="icon-star3"></i>
-                                    <i class="icon-star-half-full"></i>
-                                    <i class="icon-star-empty"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-
             </div>
+        </a>
+    </div>
+    {% endfor %}
+    
+</div>
+
+<!-- Featured Carousel
+============================================= -->
+
+
+<div class="fancy-title title-border topmargin-sm mb-4 title-center">
+    <h4>Recent Order Items</h4>
+</div>
+
+<div class="row grid-6">
+    {% for product in products %}
+    <!-- Shop Item 
+    ============================================= -->
+    <div class="col-lg-2 col-md-3 col-6 px-2">
+        <div class="product">
+            <div class="product-image">
+                <a href="#"><img src="{{ product.image }}" alt="Image 1"></a>
+                <a href="#"><img src="{{ product.image }}" alt="Image 1"></a>
+                <div class="sale-flash badge bg-danger p-2">Sale!</div>
+                <div class="bg-overlay">
+                    <div class="bg-overlay-content align-items-end justify-content-between" data-hover-animate="fadeIn" data-hover-speed="400">
+                        <p data-product ="{{ product.id }}" data-action="add" class="btn btn-dark me-2 update-cart "><i class="icon-shopping-basket"></i></p>
+                        <button class="btn btn-dark me-2 pop-up" data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg" onclick="item_popup({{ product.id }})"><i class="icon-line-expand"></i></button>
+                    </div>
+                    <div class="bg-overlay-bg bg-transparent"></div>
+                </div>
+            </div>
+            <div class="product-desc">
+                <div class="product-title mb-1"><h3><a href="{% url 'details' product.id %}">{{ product.name }}</a></h3></div>
+                <p class="id-num hidden">{{ product.id}}</p>
+                <div class="product-price font-primary"><ins>${{ product.price }}</ins></div>
+                <div class="product-rating">
+                    <i class="icon-star3"></i>
+                    <i class="icon-star3"></i>
+                    <i class="icon-star3"></i>
+                    <i class="icon-star-half-full"></i>
+                    <i class="icon-star-empty"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+</div>
 {% endblock content %}
+
+{% block js %}
+<script>
+    jQuery(window).on( 'load', function(){
+        var swiperParent = new Swiper('.swiper-parent',{
+            slidesPerView: 1,
+            pagination:{
+                clickable: false
+            },
+            grabCursor: true,
+            navigation: {
+                prevEl: '.slider-arrow-left',
+                nextEl: '.slider-arrow-right'
+            },
+            breakpoints: {
+                768: {
+                  slidesPerView: 2
+                },
+                992: {
+                  slidesPerView: 3
+                },
+                1200: {
+                  slidesPerView: 4
+                }
+            }
+        });
+
+        var swiperNested1 = new Swiper('.swiper-nested-1',{
+            slidesPerView: 1,
+            direction: 'vertical',
+            pagination:{
+                clickable: false
+            },
+            navigation: {
+                prevEl: '#sw1-arrow-top',
+                nextEl: '#sw1-arrow-bottom'
+            },
+            breakpoints: {
+                768: {
+                  slidesPerView: 2
+                },
+                992: {
+                  slidesPerView: 3
+                }
+            }
+        });
+
+        var swiperNested2 = new Swiper('.swiper-nested-2',{
+            slidesPerView: 1,
+            direction: 'vertical',
+            pagination:{
+                clickable: false
+            },
+            navigation: {
+                prevEl: '#sw2-arrow-top',
+                nextEl: '#sw2-arrow-bottom'
+            },
+            breakpoints: {
+                768: {
+                  slidesPerView: 2
+                }
+            }
+        });
+
+        var swiperNested3 = new Swiper('.swiper-nested-3',{
+            slidesPerView: 1,
+            direction: 'vertical',
+            pagination:{
+                clickable: false
+            },
+            navigation: {
+                prevEl: '#sw3-arrow-top',
+                nextEl: '#sw3-arrow-bottom'
+            },
+            breakpoints: {
+                768: {
+                  slidesPerView: 2
+                }
+            }
+        });
+    });
+</script>
+{% endblock js%}
