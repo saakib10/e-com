@@ -6,13 +6,7 @@
 <div class="shop-box-inner">
         <div class="container">
             <div class="container clearfix">
-                <div class="modal fade bs-example-modal-lg pop-up-item" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            
-                        </div>
-                    </div>
-                </div>
+                
 
                 <div class="row grid-6">
                     {% for product in products %}
@@ -26,7 +20,7 @@
                                 <div class="sale-flash badge bg-danger p-2">Sale!</div>
                                 <div class="bg-overlay">
                                     <div class="bg-overlay-content align-items-end justify-content-between" data-hover-animate="fadeIn" data-hover-speed="400">
-                                        <a data-product ="{{ product.id }}" data-action="add" class="btn btn-dark me-2 update-cart "><i class="icon-shopping-basket"></i></a>
+                                        <p data-product ="{{ product.id }}" data-action="add" class="btn btn-dark me-2 update-cart "><i class="icon-shopping-basket"></i></p>
                                         <button class="btn btn-dark me-2 pop-up" data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg" onclick="item_popup({{ product.id }})"><i class="icon-line-expand"></i></button>
                                     </div>
                                     <div class="bg-overlay-bg bg-transparent"></div>

@@ -48,6 +48,9 @@ def cart(request):
         items = []
         order = {'get_cart_total': 0, 'get_cart_items': 0}
         cartItems = 0
+    m_item = OrderItem.objects.raw('select * from store_orderitem')
+    for x in m_item:
+        print(x)
     contex = {'items': items,'order':order,'cartItems':cartItems}
     return render(request,'cart.html',contex)
 
