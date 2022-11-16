@@ -79,27 +79,9 @@ def shop(request):
     # paginator = get_range(pagina)
     
     if categoryID:
-        products_all = Product.get_all_product_by_category_id(categoryID)
-        page = request.GET.get('page') or 1
-
-        paginator = Paginator(products_all,5)
-        try:
-            products = paginator.page(page)
-        except PageNotAnInteger:
-            products = paginator.page(1)
-        except EmptyPage:
-            products = paginator.page(paginator.num_pages)
+        products = get_item_with_pagination(request,categoryID)
     else:
-        products_all = Product.get_all_products()
-        page = request.GET.get('page') or 1
-
-        paginator = Paginator(products_all,5)
-        try:
-            products = paginator.page(page)
-        except PageNotAnInteger:
-            products = paginator.page(1)
-        except EmptyPage:
-            products = paginator.page(paginator.num_pages)
+        products = get_item_with_pagination(request)
 
     contex = {'items': items,'products':products,'cartItems':cartItems,'order':order,'category':category,"paginator":pagina}
     return render(request,'shop.html',contex)
@@ -251,3 +233,24 @@ def get_pagination_number(item_show):
 @register.filter
 def get_range(pagination):
     return range(1,pagination+2)
+
+# Pagenation Wise Item Get Item
+def get_item_with_pagination(request,categoryid=None):
+    page = request.GET.get('page') or 1
+    print("ppppppppppppp",page)
+
+    if categoryid:
+        products_all = Product.get_all_product_by_category_id(categoryid)
+    else:
+        products_all = Product.get_all_products()
+    
+
+    paginator = Paginator(products_all,5)
+    try:
+        products = paginator.page(page)
+    except PageNotAnInteger:
+        products = paginator.page(1)
+    except EmptyPage:
+        products = paginator.page(paginator.num_pages)
+    
+    return products
