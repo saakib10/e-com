@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block content %}
+{% block slider %}
+
+{% load static %}
 <section id="slider" class="slider-element swiper_wrapper customjs canvas-slider canvas-slider-grid min-vh-60 min-vh-md-100">
     <div class="slider-inner">
         <div class="swiper-container swiper-parent">
@@ -27,6 +29,8 @@
     </div>
 </section>
 
+{% endblock slider %}
+{% block content %}
 
 <div class="container clearfix">
     <div class="fancy-title title-border title-center mb-4 mt-5">
