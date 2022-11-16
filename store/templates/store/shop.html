@@ -4,49 +4,55 @@
 
 
 <div class="shop-box-inner">
-        <div class="container">
-            <div class="container clearfix">
-                
-
-                <div class="row grid-6">
-                    {% for product in products %}
-                    <!-- Shop Item 
-                    ============================================= -->
-                    <div class="col-lg-2 col-md-3 col-6 px-2">
-                        <div class="product">
-                            <div class="product-image">
-                                <a href="#"><img src="{{ product.imagesURL }}" alt="Image 1"></a>
-                                <a href="#"><img src="{{ product.imagesURL }}" alt="Image 1"></a>
-                                <div class="sale-flash badge bg-danger p-2">Sale!</div>
-                                <div class="bg-overlay">
-                                    <div class="bg-overlay-content align-items-end justify-content-between" data-hover-animate="fadeIn" data-hover-speed="400">
-                                        <p data-product ="{{ product.id }}" data-action="add" class="btn btn-dark me-2 update-cart "><i class="icon-shopping-basket"></i></p>
-                                        <button class="btn btn-dark me-2 pop-up" data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg" onclick="item_popup({{ product.id }})"><i class="icon-line-expand"></i></button>
-                                    </div>
-                                    <div class="bg-overlay-bg bg-transparent"></div>
+    <div class="container">
+        <div class="container clearfix">
+            <div class="row grid-6">
+                {% for product in products %}
+                <!-- Shop Item 
+                ============================================= -->
+                <div class="col-lg-2 col-md-3 col-6 px-2">
+                    <div class="product">
+                        <div class="product-image">
+                            <a href="#"><img src="{{ product.imagesURL }}" alt="Image 1"></a>
+                            <a href="#"><img src="{{ product.imagesURL }}" alt="Image 1"></a>
+                            <div class="sale-flash badge bg-danger p-2">Sale!</div>
+                            <div class="bg-overlay">
+                                <div class="bg-overlay-content align-items-end justify-content-between" data-hover-animate="fadeIn" data-hover-speed="400">
+                                    <p data-product ="{{ product.id }}" data-action="add" class="btn btn-dark me-2 update-cart" style="margin: 0px !important;"><i class="icon-shopping-basket"></i></p>
+                                    <button class="btn btn-dark me-2 pop-up" data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg" onclick="item_popup({{ product.id }})"><i class="icon-line-expand"></i></button>
                                 </div>
+                                <div class="bg-overlay-bg bg-transparent"></div>
                             </div>
-                            <div class="product-desc">
-                                <div class="product-title mb-1"><h3><a href="{% url 'details' product.id %}">{{ product.name }}</a></h3></div>
-                                <p class="id-num hidden">{{ product.id}}</p>
-                                <div class="product-price font-primary"><ins>${{ product.price }}</ins></div>
+                        </div>
+                        <div class="product-desc">
+                            <div class="product-title mb-1"><h3><a href="{% url 'details' product.id %}">{{ product.name }}</a></h3></div>
+                            <p class="id-num d-none">{{ product.id}}</p>
+                            <div class="product-price font-primary"><ins>${{ product.price }}</ins></div>
 
-                                
-                                <div class="product-rating">
-                                    <i class="icon-star3"></i>
-                                    <i class="icon-star3"></i>
-                                    <i class="icon-star3"></i>
-                                    <i class="icon-star-half-full"></i>
-                                    <i class="icon-star-empty"></i>
-                                </div>
+                            
+                            <div class="product-rating">
+                                <i class="icon-star3"></i>
+                                <i class="icon-star3"></i>
+                                <i class="icon-star3"></i>
+                                <i class="icon-star-half-full"></i>
+                                <i class="icon-star-empty"></i>
                             </div>
                         </div>
                     </div>
-                    {% endfor %}
                 </div>
+                {% endfor %}
             </div>
         </div>
+        <ul class="pagination pagination-rounded pagination-sm">
+            <li class="page-item disabled"><a class="page-link" href="#" aria-label="Previous"> <span aria-hidden="true">«</span></a></li>
+            {% for x in paginator|get_range %}
+                <li class="page-item active"><a class="page-link" href="/shop/?page={{ x }}">{{ x }}</a></li>
+            {% endfor %}
+            <li class="page-item"><a class="page-link" href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+          </ul>
     </div>
+</div>
+
 
 
 

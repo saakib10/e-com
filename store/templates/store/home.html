@@ -27,72 +27,110 @@
     </div>
 </section>
 
+
 <div class="container clearfix">
-
-<!-- Shop Categories
-============================================= -->
-<div class="fancy-title title-border title-center mb-4 mt-5">
-    <h4>Shop popular categories</h4>
-</div>
-
-<div class="row shop-categories clearfix">
-    {% for cate in category %}
-    <div class="col-lg-4">
-        <a href="/shop/?category={{cate.id}}" style="background: url('{{ cate.image_front }}') no-repeat center center; background-size: cover;">
-            <div class="vertical-middle dark center">
-                <div class="heading-block m-0 border-0">
-                    <h3 class="nott fw-semibold ls0">{{ cate.title }}</h3>
-                    <small class="button bg-white text-dark button-light button-mini">Browse Now</small>
-                </div>
-            </div>
-        </a>
+    <div class="fancy-title title-border title-center mb-4 mt-5">
+        <h4>Top Sell Items</h4>
     </div>
-    {% endfor %}
-    
-</div>
-
-<!-- Featured Carousel
-============================================= -->
-
-
-<div class="fancy-title title-border topmargin-sm mb-4 title-center">
-    <h4>Recent Order Items</h4>
-</div>
-
-<div class="row grid-6">
-    {% for product in products %}
-    <!-- Shop Item 
-    ============================================= -->
-    <div class="col-lg-2 col-md-3 col-6 px-2">
-        <div class="product">
-            <div class="product-image">
-                <a href="#"><img src="{{ product.image }}" alt="Image 1"></a>
-                <a href="#"><img src="{{ product.image }}" alt="Image 1"></a>
-                <div class="sale-flash badge bg-danger p-2">Sale!</div>
-                <div class="bg-overlay">
-                    <div class="bg-overlay-content align-items-end justify-content-between" data-hover-animate="fadeIn" data-hover-speed="400">
-                        <p data-product ="{{ product.id }}" data-action="add" class="btn btn-dark me-2 update-cart "><i class="icon-shopping-basket"></i></p>
-                        <button class="btn btn-dark me-2 pop-up" data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg" onclick="item_popup({{ product.id }})"><i class="icon-line-expand"></i></button>
+    <div class="row grid-6">
+        {% for product in top_sells %}
+        <!-- Shop Item 
+        ============================================= -->
+        <div class="col-lg-2 col-md-3 col-6 px-2">
+            <div class="product">
+                <div class="product-image">
+                    <a href="#"><img src="{{ product.imagesURL }}" alt="Image 1"></a>
+                    <a href="#"><img src="{{ product.imagesURL }}" alt="Image 1"></a>
+                    <div class="sale-flash badge bg-danger p-2">Sale!</div>
+                    <div class="bg-overlay">
+                        <div class="bg-overlay-content align-items-end justify-content-between" data-hover-animate="fadeIn" data-hover-speed="400">
+                            <p data-product ="{{ product.id }}" data-action="add" class="btn btn-dark me-2 update-cart" style="margin: 0px !important;"><i class="icon-shopping-basket"></i></p>
+                            <button class="btn btn-dark me-2 pop-up" data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg" onclick="item_popup({{ product.id }})"><i class="icon-line-expand"></i></button>
+                        </div>
+                        <div class="bg-overlay-bg bg-transparent"></div>
                     </div>
-                    <div class="bg-overlay-bg bg-transparent"></div>
                 </div>
-            </div>
-            <div class="product-desc">
-                <div class="product-title mb-1"><h3><a href="{% url 'details' product.id %}">{{ product.name }}</a></h3></div>
-                <p class="id-num hidden">{{ product.id}}</p>
-                <div class="product-price font-primary"><ins>${{ product.price }}</ins></div>
-                <div class="product-rating">
-                    <i class="icon-star3"></i>
-                    <i class="icon-star3"></i>
-                    <i class="icon-star3"></i>
-                    <i class="icon-star-half-full"></i>
-                    <i class="icon-star-empty"></i>
+                <div class="product-desc">
+                    <div class="product-title mb-1"><h3><a href="{% url 'details' product.id %}">{{ product.name }}</a></h3></div>
+                    <p class="id-num d-none">{{ product.id}}</p>
+                    <div class="product-price font-primary"><ins>${{ product.price }}</ins></div>
+                    <div class="product-rating">
+                        <i class="icon-star3"></i>
+                        <i class="icon-star3"></i>
+                        <i class="icon-star3"></i>
+                        <i class="icon-star-half-full"></i>
+                        <i class="icon-star-empty"></i>
+                    </div>
                 </div>
             </div>
         </div>
+        {% endfor %}
     </div>
-    {% endfor %}
-</div>
+
+<!-- Shop Categories
+============================================= -->
+    <div class="fancy-title title-border title-center mb-4 mt-5">
+        <h4>Shop popular categories</h4>
+    </div>
+
+    <div class="row shop-categories clearfix">
+        {% for cate in category %}
+        <div class="col-lg-4">
+            <a href="/shop/?category={{cate.id}}" style="background: url('{{ cate.image_front }}') no-repeat center center; background-size: cover;">
+                <div class="vertical-middle dark center">
+                    <div class="heading-block m-0 border-0">
+                        <h3 class="nott fw-semibold ls0">{{ cate.title }}</h3>
+                        <small class="button bg-white text-dark button-light button-mini">Browse Now</small>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+        
+    </div>
+
+    <!-- Featured Carousel
+    ============================================= -->
+
+
+    <div class="fancy-title title-border topmargin-sm mb-4 title-center">
+        <h4>Recent Order Items</h4>
+    </div>
+
+    <div class="row grid-6">
+        {% for product in products %}
+        <!-- Shop Item 
+        ============================================= -->
+        <div class="col-lg-2 col-md-3 col-6 px-2">
+            <div class="product">
+                <div class="product-image">
+                    <a href="#"><img src="{{ product.image }}" alt="Image 1"></a>
+                    <a href="#"><img src="{{ product.image }}" alt="Image 1"></a>
+                    <div class="sale-flash badge bg-danger p-2">Sale!</div>
+                    <div class="bg-overlay">
+                        <div class="bg-overlay-content align-items-end justify-content-between" data-hover-animate="fadeIn" data-hover-speed="400">
+                            <p data-product ="{{ product.id }}" data-action="add" class="btn btn-dark me-2 update-cart" style="margin: 0px !important;"><i class="icon-shopping-basket"></i></p>
+                            <button class="btn btn-dark me-2 pop-up" data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg" onclick="item_popup({{ product.id }})"><i class="icon-line-expand"></i></button>
+                        </div>
+                        <div class="bg-overlay-bg bg-transparent"></div>
+                    </div>
+                </div>
+                <div class="product-desc">
+                    <div class="product-title mb-1"><h3><a href="{% url 'details' product.id %}">{{ product.name }}</a></h3></div>
+                    <p class="id-num hidden">{{ product.id}}</p>
+                    <div class="product-price font-primary"><ins>${{ product.price }}</ins></div>
+                    <div class="product-rating">
+                        <i class="icon-star3"></i>
+                        <i class="icon-star3"></i>
+                        <i class="icon-star3"></i>
+                        <i class="icon-star-half-full"></i>
+                        <i class="icon-star-empty"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 
 </div>
 {% endblock content %}
