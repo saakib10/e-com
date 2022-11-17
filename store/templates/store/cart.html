@@ -1,92 +1,126 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<div class="top-search">
-    <div class="container">
-        <div class="input-group">
-            <span class="input-group-addon"><i class="fa fa-search"></i></span>
-            <input type="text" class="form-control" placeholder="Search">
-            <span class="input-group-addon close-search"><i class="fa fa-times"></i></span>
-        </div>
-    </div>
-</div>
 <div class="cart-box-main">
     <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="table-main table-responsive">
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th>Images</th>
-                            <th>Product Name</th>
-                            <th>Price</th>
-                            <th>Quantity</th>
-                            <th>Total</th>
+        <table class="table cart mb-5">
+            <thead>
+                <tr>
+                    <th class="cart-product-remove">&nbsp;</th>
+                    <th class="cart-product-thumbnail">&nbsp;</th>
+                    <th class="cart-product-name">Product</th>
+                    <th class="cart-product-price">Unit Price</th>
+                    <th class="cart-product-quantity">Quantity</th>
+                    <th class="cart-product-subtotal">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr class="cart_item">
+                    <td class="cart-product-remove">
+                        <a href="#" class="remove" title="Remove this item"><i class="icon-trash2"></i></a>
+                    </td>
 
-                        </tr>
-                        </thead>
-                        <tbody id="cart-body">
-                        {% for item in items %}
-                        <tr>
-                            <td class="thumbnail-img">
-                                    <img class="img-fluid" src="{{ item.product.imagesURL }}" alt=""/>
-                            </td>
-                            <td class="name-pr">
-                                <a href="#">
-                                    {{ item.product.name }}
-                                </a>
-                            </td>
-                            <td class="price-pr">
-                                <p>$ {{ item.product.price }}</p>
-                            </td>
-                            <td>
+                    <td class="cart-product-thumbnail">
+                        <a href="#"><img width="64" height="64" src="{{ item.product.imagesURL }}" alt="{{ item.product.name }}"></a>
+                    </td>
 
-                                <div style="flex:1">
-                                    <p class="quantity">{{ item.quantity }}</p>
-                                    <div class="quantity">
-                                        <img data-product= {{item.product.id}} data-action="add" class="btttn chg-quantity" src="{% static  'images/arrow-up.png' %}">
+                    <td class="cart-product-name">
+                        <a href="#">{{ item.product.name }}</a>
+                    </td>
 
-							            <img data-product= {{item.product.id}} data-action="remove" class="btttn chg-quantity" src="{% static  'images/arrow-down.png' %}">
-						            </div>
-					            </div>
+                    <td class="cart-product-price">
+                        <span class="amount">${{ item.product.price }}</span>
+                    </td>
 
-                            </td>
-                            <td class="total-pr">
-                                <p>$ {{ item.get_total }}</p>
-                            </td>
+                    <td class="cart-product-quantity">
+                        <div class="quantity">
+                            <input type="button" data-product= {{item.product.id}} data-action="add" class="btttn chg-quantity" value="+" class="minus">
+                            <input type="text" name="quantity" value="{{ item.quantity }}" class="qty">
+                            <input type="button" data-product= {{item.product.id}} data-action="remove" class="btttn chg-quantity" value="-" class="plus">
+                        </div>
+                    </td>
 
-                        </tr>
-                        {% endfor %}
+                    <td class="cart-product-subtotal">
+                        <span class="amount">${{ item.get_total }}</span>
+                    </td>
+                </tr>
+                {% endfor %}
+                <tr class="cart_item">
+                    <td colspan="6">
+                        <div class="row justify-content-between py-2 col-mb-30">
+                            <div class="col-lg-auto ps-lg-0">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <input type="text" value="" class="sm-form-control text-center text-md-start" placeholder="Enter Coupon Code..">
+                                    </div>
+                                    <div class="col-md-4 mt-3 mt-md-0">
+                                        <a href="#" class="button button-3d button-black m-0">Apply Coupon</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-auto pe-lg-0">
+                                <a href="#" class="button button-3d button-black m-0">Update Cart</a>
+                                <a href="{% url 'checkout' %}" class="button button-3d button-black m-0">Proceed to Checkout</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+        <div class="row col-mb-30">
+            <div class="col-lg-6">
+                <h4>Calculate Shipping</h4>
+                <form class="row">
+                    <div class="col-12 form-group">
+                        <select class="sm-form-control">
+                            <option value="AX">Åland Islands</option>
+
+                        </select>
+                    </div>
+                    <div class="col-6 form-group">
+                        <input type="text" class="sm-form-control" placeholder="State / Country">
+                    </div>
+
+                    <div class="col-6 form-group">
+                        <input type="text" class="sm-form-control" placeholder="PostCode / Zip">
+                    </div>
+                    <div class="col-12 form-group">
+                        <button class="button button-3d m-0 button-black">Update Totals</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-lg-6">
+                <h4>Cart Totals</h4>
+                <div class="table-responsive">
+                    <table class="table cart cart-totals">
+                        <tbody>
+                            <tr class="cart_item">
+                                <td class="cart-product-name">
+                                    <strong>Total Item</strong>
+                                </td>
+
+                                <td class="cart-product-name">
+                                    <span class="amount">{{ order.get_cart_items }}</span>
+                                </td>
+                            </tr>
+                            <tr class="cart_item">
+                                <td class="cart-product-name">
+                                    <strong>Total</strong>
+                                </td>
+
+                                <td class="cart-product-name">
+                                    <span class="amount color lead"><strong>${{ order.get_cart_total }}</strong></span>
+                                </td>
+                            </tr>
                         </tbody>
+
                     </table>
                 </div>
             </div>
         </div>
-
-
-        <div class="row my-5">
-            <div class="col-lg-8 col-sm-12"></div>
-            <div class="col-lg-4 col-sm-12">
-                <div class="order-box">
-                    <h3>Order summary</h3>
-                    <div class="d-flex">
-                        <h4>Total Item</h4>
-                        <div class="ml-auto font-weight-bold"> {{ order.get_cart_items }}</div>
-                    </div>
-                    <hr class="my-1">
-                    <hr>
-                    <div class="d-flex gr-total">
-                        <h5>Grand Total</h5>
-                        <div class="ml-auto h5"> $ {{ order.get_cart_total }}</div>
-                    </div>
-                    <hr>
-                </div>
-            </div>
-            <div class="col-12 d-flex shopping-box"><a href="{% url 'checkout' %}" class="ml-auto btn hvr-hover">Checkout</a>
-            </div>
-        </div>
-
     </div>
 </div>
 

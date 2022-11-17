@@ -22,43 +22,37 @@
     <link rel="shortcut icon" href="/images/logo3.jpg"  type="image/x-icon">
 
 
-    <!-- Bootstrap CSS -->
-    
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,800" rel="stylesheet">
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
 
 
     {% comment %} Canvas {% endcomment %}
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,400i,700|Montserrat:300,400,500,600,700|Merriweather:300,400,300i,400i&display=swap" rel="stylesheet" type="text/css" />
-	<link rel="stylesheet" href="{% static 'css/css/bootstrap.css' %}" type="text/css" />
+	<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" type="text/css" />
 	<link rel="stylesheet" href="{% static 'style.css' %}" type="text/css" />
-	<link rel="stylesheet" href="{% static 'css/css/dark.css' %}" type="text/css" />
-	<link rel="stylesheet" href="{% static 'css/css/swiper.css' %}" type="text/css" />
+	<link rel="stylesheet" href="{% static 'css/dark.css' %}" type="text/css" />
+	<link rel="stylesheet" href="{% static 'css/swiper.css' %}" type="text/css" />
 
 	<!-- shop Demo Specific Stylesheet -->
 	<link rel="stylesheet" href="{% static 'demos/shop/shop.css' %}" type="text/css" />
 	<link rel="stylesheet" href="{% static 'demos/shop/css/fonts.css' %}" type="text/css" />
-    <link rel="stylesheet" href="{% static 'css/css/font-icons.css' %}" type="text/css" />
-	<link rel="stylesheet" href="{% static 'css/css/animate.css' %}" type="text/css" />
-	<link rel="stylesheet" href="{% static 'css/css/magnific-popup.css' %}" type="text/css" />
+    <link rel="stylesheet" href="{% static 'css/font-icons.css' %}" type="text/css" />
+	<link rel="stylesheet" href="{% static 'css/animate.css' %}" type="text/css" />
+	<link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}" type="text/css" />
 
-	<link rel="stylesheet" href="{% static 'css/css/custom.css' %}" type="text/css" />
+	<link rel="stylesheet" href="{% static 'css/custom.css' %}" type="text/css" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-	<link rel="stylesheet" href="{% static 'css/css/colors.php?color=000000' %}" type="text/css" />
+	<link rel="stylesheet" href="{% static 'css/colors.php?color=000000' %}" type="text/css" />
     
     <!-- Site CSS -->
+    
     {% block css %}
 
     {% endblock css %}
-
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% comment %} <link rel="stylesheet" href="{% static 'css/style.css' %}"> {% endcomment %}
     <!-- Responsive CSS -->
-    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+    {% comment %} <link rel="stylesheet" href="{% static 'css/responsive.css' %}"> {% endcomment %}
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+    {% comment %} <link rel="stylesheet" href="{% static 'css/custom.css' %}"> {% endcomment %}
 
     <script type="text/javascript">
         var user = '{{ request.user }}'
@@ -97,55 +91,82 @@
             </div>
         </div>
     </div>
+	{% block slider %}
+	{% endblock slider %}
 
-    {% block content %}
+	<section id="content">
+		<div class="content-wrap">
+			<div class="container clearfix">
 
-    {% endblock content %}
-    <!-- Start Footer  -->
-    <footer>
-        <div class="footer-main">
-            <div class="container">
-				<div class="row">
-					<div class="col-lg-4 col-md-12 col-sm-12">
-						<div class="footer-top-box">
-							<h3>Business Time</h3>
-							<ul class="list-time">
-								<li>Saturday - Thursday: 10.00am to 8.00pm</li>  <li>Friday: <span>Closed</span></li>
-							</ul>
+				{% block content %}
+
+				{% endblock content %}
+			</div>
+		</div>
+	</section>
+    <!-- Footer
+		============================================= -->
+		<footer id="footer" class="dark">
+			<!-- Copyrights
+			============================================= -->
+			<div id="copyrights">
+				<div class="container">
+
+					<div class="row justify-content-between col-mb-30">
+						<div class="col-12 col-lg-auto text-center text-lg-start order-last order-lg-first">
+							<img src="images/footer-logo.png" alt="Image" class="mb-4"><br>
+							Copyrights &copy; 2020 All Rights Reserved by Canvas Inc.
+						</div>
+
+						<div class="col-12 col-lg-auto text-center text-lg-end">
+							<div class="copyrights-menu copyright-links">
+								<a href="#">Home</a>/<a href="#">About</a>/<a href="#">Features</a>/<a href="#">Portfolio</a>/<a href="#">FAQs</a>/<a href="#">Contact</a>
+							</div>
+							<a href="#" class="social-icon inline-block si-small si-borderless mb-0 si-facebook">
+								<i class="icon-facebook"></i>
+								<i class="icon-facebook"></i>
+							</a>
+
+							<a href="#" class="social-icon inline-block si-small si-borderless mb-0 si-twitter">
+								<i class="icon-twitter"></i>
+								<i class="icon-twitter"></i>
+							</a>
+
+							<a href="#" class="social-icon inline-block si-small si-borderless mb-0 si-gplus">
+								<i class="icon-gplus"></i>
+								<i class="icon-gplus"></i>
+							</a>
+
+							<a href="#" class="social-icon inline-block si-small si-borderless mb-0 si-pinterest">
+								<i class="icon-pinterest"></i>
+								<i class="icon-pinterest"></i>
+							</a>
+
+							<a href="#" class="social-icon inline-block si-small si-borderless mb-0 si-vimeo">
+								<i class="icon-vimeo"></i>
+								<i class="icon-vimeo"></i>
+							</a>
+
+							<a href="#" class="social-icon inline-block si-small si-borderless mb-0 si-github">
+								<i class="icon-github"></i>
+								<i class="icon-github"></i>
+							</a>
+
+							<a href="#" class="social-icon inline-block si-small si-borderless mb-0 si-yahoo">
+								<i class="icon-yahoo"></i>
+								<i class="icon-yahoo"></i>
+							</a>
+
+							<a href="#" class="social-icon inline-block si-small si-borderless mb-0 si-linkedin">
+								<i class="icon-linkedin"></i>
+								<i class="icon-linkedin"></i>
+							</a>
 						</div>
 					</div>
-					<div class="col-lg-4 col-md-12 col-sm-12">
-						<div class="footer-top-box">
-							<h3>Newsletter</h3>
-							<form class="newsletter-box">
-								<div class="form-group">
-									<input class="" type="email" name="Email" placeholder="Email Address*" />
-									<i class="fa fa-envelope"></i>
-								</div>
-								<button class="btn hvr-hover" type="submit">Submit</button>
-							</form>
-						</div>
-					</div>
-					<div class="col-lg-4 col-md-12 col-sm-12">
-						<div class="footer-top-box">
-							<h3>Address</h3>
-							<li >914 Ibrahimpur</li>
-                            <li>Kafrul</li>
-                            <li>Dhaka</li>
 
-						</div>
-					</div>
 				</div>
-				<hr>
-
-            </div>
-        </div>
-    </footer>
-    <!-- End Footer  -->
-
-    <!-- Start copyright  -->
-
-    <!-- End copyright  -->
+			</div><!-- #copyrights end -->
+		</footer><!-- #footer end -->
 
     <a href="#" id="back-to-top" title="Back to top" style="display: none;">&uarr;</a>
 
@@ -153,21 +174,6 @@
 
     {% endblock js %}
     
-    <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
-    <script src="{% static 'js/popper.min.js' %}"></script>
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
-
-
-    <script src="{% static 'js/jquery.superslides.min.js' %}"></script>
-    <script src="{% static 'js/bootstrap-select.js' %}"></script>
-    <script src="{% static 'js/inewsticker.js' %}"></script>
-    <!-- <script src="{% static 'js/bootsnav.js.' %}"></script> -->
-    <script src="{% static 'js/images-loded.min.js' %}"></script>
-    <script src="{% static 'js/isotope.min.js' %}"></script>
-    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
-    <script src="{% static 'js/baguetteBox.min.js' %}"></script>
-    <script src="{% static 'js/form-validator.min.js' %}"></script>
-    <script src="{% static 'js/contact-form-script.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
 
 	<!-- JavaScripts
@@ -175,6 +181,8 @@
 	<script src="{% static 'js/jquery.js' %}"></script>
 	<script src="{% static 'js/plugins.min.js' %}"></script>
     <script src="{% static 'js/functions.js' %}"></script>
+	<script src="{% static 'js/components/bs-select.js' %}"></script>
+
         
     {% comment %} my custom script {% endcomment %}
     <script src="{% static 'js/customizescript.js' %}"></script>

@@ -14,9 +14,10 @@ admin.site.register(Product, MyProduct)
 admin.site.register(Order)
 
 class MyOrderItemProduct(admin.ModelAdmin):
-    list_display = ('product',)
+    list_display = ('product','order',)
     list_filter = (
         ('product', admin.RelatedOnlyFieldListFilter),
+        ('order', admin.RelatedOnlyFieldListFilter),
     )
 
 admin.site.register(OrderItem,MyOrderItemProduct)

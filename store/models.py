@@ -52,6 +52,7 @@ class Product(models.Model):
     category = models.ForeignKey(Category,max_length=50,on_delete=models.CASCADE, null=True)
     images = models.ImageField(null=True, blank=True)
     descriptions = models.CharField(max_length=500 , null=True)
+    total_orders = models.IntegerField(default=0, null=True, blank=True)
 
 
     @staticmethod
