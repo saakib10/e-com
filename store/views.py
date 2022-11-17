@@ -11,6 +11,8 @@ from django.db.models import Q
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.template.defaulttags import register
+from django.urls import resolve
+
 
 
 def home(request):
@@ -74,49 +76,93 @@ def shop(request):
     products = None
     categoryID= request.GET.get('category')
     item_show = request.GET.get('item_number') or 5
-    pagina = get_pagination_number(item_show)
+    pagina = get_pagination_number(item_show,categoryID)
+    pagination = {'paginator': pagina, "category_id":categoryID or ""}
     
     # paginator = get_range(pagina)
     
     if categoryID:
-        products_all = Product.get_all_product_by_category_id(categoryID)
-        page = request.GET.get('page') or 1
-
-        paginator = Paginator(products_all,5)
-        try:
-            products = paginator.page(page)
-        except PageNotAnInteger:
-            products = paginator.page(1)
-        except EmptyPage:
-            products = paginator.page(paginator.num_pages)
+        products = get_pagination_wise_item(request,categoryID)
     else:
-        products_all = Product.get_all_products()
-        page = request.GET.get('page') or 1
+        products = get_pagination_wise_item(request)
 
-        paginator = Paginator(products_all,5)
-        try:
-            products = paginator.page(page)
-        except PageNotAnInteger:
-            products = paginator.page(1)
-        except EmptyPage:
-            products = paginator.page(paginator.num_pages)
-
-    contex = {'items': items,'products':products,'cartItems':cartItems,'order':order,'category':category,"paginator":pagina}
+    contex = {'items': items,'products':products,'cartItems':cartItems,'order':order,'category':category,"paginator":pagination}
     return render(request,'shop.html',contex)
 
+# pagination wise get item
+def get_pagination_wise_item(request,categoryid=None):
+    page = request.GET.get('page') or 1
+    if categoryid:
+        products_all = Product.get_all_product_by_category_id(categoryid)
+    else:
+        products_all = Product.get_all_products()
+
+    paginator = Paginator(products_all,6)
+    try:
+        products = paginator.page(page)
+    except PageNotAnInteger:
+        products = paginator.page(1)
+    except EmptyPage:
+        products = paginator.page(paginator.num_pages)
+        
+    return products
+
 def checkout(request):
+    context = {}
     if request.user.is_authenticated:
         customer = request.user.customer
         order,created = Order.objects.get_or_create(customer = customer, complete = False)
         items = order.orderitem_set.all()
 
         cartItems = order.get_cart_items
+        
+        # cmmt = CustomerAddress.objects.filter(customer = customer)
+        # if cmmt:
+        #     address = CustomerAddress.objects.get(customer = customer)
+        #     details = {}
+        #     if address.province:
+        #         province = {'id': address.province.id,'name': address.province}
+        #         details.update({'province':province})
+        #         pr = Province.objects.filter(~Q(name=address.province))
+        #         context['province'] = pr
+        #     if address.city:
+        #         city = {'id': address.city.id,'name': address.city}
+        #         details.update({'city':city})
+        #         ci = City.objects.filter(~Q(name=address.city))
+        #         context['city'] = ci
+        #     if address.area:
+        #         area = {'id': address.area.id,'name': address.area.name}
+        #         details.update({'area':area})
+        #     if address.address:
+        #         details.update({'address':address.address})
+        #     context['details'] = details
+            
+        # else:
+        #     province = Province.objects.all()
+        #     context['province'] = province
+        address = get_customer_address(customer)
+        context['address'] = address
+        
     else:
         items = []
         order = {'get_cart_total': 0, 'get_cart_items': 0}
         cartItems = 0
-    contex = {'items': items,'order': order,'cartItems': cartItems}
-    return render(request,'checkout.html',contex)
+    context['items']= items
+    context['order']= order
+    context['cartItems'] = cartItems
+    return render(request,'checkout.html',context)
+
+
+# Get Customer Address For 
+def get_customer_address(customer):
+    addr = CustomerAddress.objects.get(customer = customer)
+    if addr:
+            return {
+                'province':addr.province,
+                'city':addr.city,
+                'area':addr.area,
+                'addresss':addr.address
+            }
 
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
@@ -242,12 +288,15 @@ def update_ordered_product_quantity():
             product.total_orders += x.quantity
             product.save()
             
-def get_pagination_number(item_show):
-    product = Product.objects.all().count()
+def get_pagination_number(item_show,categoryid=None):
+    if categoryid:
+        product = Product.get_all_product_by_category_id(categoryid).count()
+    else:
+        product = Product.objects.all().count()
     return round(product/item_show)
 
 
 # Paginator Count
 @register.filter
 def get_range(pagination):
-    return range(1,pagination+2)
+    return range(1,pagination+1)

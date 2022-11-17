@@ -45,8 +45,8 @@
         </div>
         <ul class="pagination pagination-rounded pagination-sm">
             <li class="page-item disabled"><a class="page-link" href="#" aria-label="Previous"> <span aria-hidden="true">«</span></a></li>
-            {% for x in paginator|get_range %}
-                <li class="page-item active"><a class="page-link" href="/shop/?page={{ x }}">{{ x }}</a></li>
+            {% for x in paginator.paginator|get_range %}
+                <li class="page-item active"><a class="page-link" href="/shop/?page={{ x }}{% if paginator.category_id %}&category={{ paginator.category_id }}{% endif %}">{{ x }}</a></li>
             {% endfor %}
             <li class="page-item"><a class="page-link" href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
           </ul>
