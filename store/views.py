@@ -161,7 +161,7 @@ def get_customer_address(customer):
                 'province':addr.province,
                 'city':addr.city,
                 'area':addr.area,
-                'addresss':addr.address
+                'address':addr.address
             }
 
 def is_ajax(request):
@@ -262,14 +262,12 @@ def view_details(request,id):
         dict = {"name" : product.name,"image":product.imagesURL}
         recents.append(dict)
     contex = {'details':details,'cartItems':cartItems,'products':related_product,'recents':recents}
-    print(contex)
     return render(request,'details.html',contex)
 
 def item_popup_details(request):
     if is_ajax(request):
         product_id = int(request.GET.get("product_id"))
         product = Product.objects.get(id = product_id)
-        print(product.imagesURL)
         item = {"id":product.id,'name':product.name,"image":product.imagesURL,"price":product.price,"description":product.descriptions}
     return JsonResponse({'data': item})
 
@@ -278,7 +276,6 @@ def update_ordered_product_quantity():
     n_c_list = []  
     n_c_order = Order.objects.filter(complete = False).values()
     for x in n_c_order:
-        print(type(x.get("id")))
         n_c_list.append(x.get("id"))
     # order_item = OrderItem
     order_items = OrderItem.objects.all()

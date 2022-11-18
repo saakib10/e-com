@@ -28,6 +28,13 @@
 	</style>
 {% endblock css %}
 {% block content %}
+    <!-- <div class="modal fade bs-example-modal-ld pop-up-item" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <h1>treeeeeeeeeeeeeee</h1>
+            </div>
+        </div>
+    </div> -->
     <div class="cart-box-main">
         <div class="container">
             
@@ -35,27 +42,28 @@
                 <div class="col-lg-6 bottommargin-sm">
                     <div class="white-section">
                         <div class="form-check">
+                            <h4>Delivery Address</h4>
                             <input class="form-check-input" value="1" type="checkbox" id="gridCheck">
-                            <label class="form-check-label" for="gridCheck">Custoemr Default Address</label>
+                            <label class="form-check-label" for="gridCheck">User Custoemr Default Address</label>
                         </div>
                     </div>
                     <div class="white-section form-address">
                         <div class="row" style="background-color: #F5F5F5; padding: 17px;">
                             <div class="col-lg-6">
                                 <label>Province</label>
-                                    <select class="selectpicker" data-size="5">
+                                    <select class="selectpicker" id="province" data-size="5">
                                         <option>Mustard</option>
                                     </select>
                             </div>
                             <div class="col-lg-6">
                                 <label>City</label>
-                                    <select class="selectpicker" data-size="5">
+                                    <select class="selectpicker" id="city" data-size="5">
                                         <option>Mustard</option>
                                     </select>
                             </div>
                             <div class="col-lg-12 mt-5">
                                 <label>Area</label>
-                                    <select class="selectpicker" data-size="5">
+                                    <select class="selectpicker" id="area" data-size="5">
                                         <option>Mustard</option>
                                     </select>
                             </div>
@@ -71,17 +79,18 @@
                     <div class="white-section address-list d-none">
                         <div class="promo promo-light p-4 p-md-5 mb-5">
                             <div class="row align-items-center">
-                                <div class="col-10 col-lg">
+                                <div class="col-12 col-lg">
                                     {% if address.province %}<h4 class="m-1">{{ address.province }}</h4>{% endif %}
                                     {% if address.city %}<h4 class="m-1">{{ address.city }}</h4>{% endif %}
-                                    {% if address.province %}<h4 class="m-1">{{ address.area }}</h4>{% endif %}
-                                    {% if address.province %}
+                                    {% if address.area %}<h4 class="m-1">{{ address.area }}</h4>{% endif %}
+                                    {% if address.address %}
                                         <span><h4>{{ address.address }}</h4></span>
                                     {% endif %}
                                 </div>
-                                <div class="col-2 col-lg-auto mt-4 mt-lg-0">
-                                    <a href="#" class="button button-3d button-black m-0">Start Trial</a>
-                                </div>
+                                <!-- <div class="col-2 col-lg-auto mt-4 mt-lg-0"> -->
+                                    <!-- <a href="#" class="button button-3d button-black m-0">Start Trial</a> -->
+                                    <!-- <button class="button button-3d button-black m-0 button button-3d button-black m-0" data-bs-toggle="modal" data-bs-target=".bs-example-modal-ld" onclick="item_popup({{ product.id }})">Edit</button> -->
+                                <!-- </div> -->
                             </div>
                         </div>
                     </div>
@@ -125,75 +134,44 @@
                     <h4>Your Orders</h4>
 
                     <div class="table-responsive">
-                        <table class="table cart">
+                        <table class="table cart mb-5">
                             <thead>
                                 <tr>
                                     <th class="cart-product-thumbnail">&nbsp;</th>
                                     <th class="cart-product-name">Product</th>
+                                    <th class="cart-product-price">Unit Price</th>
                                     <th class="cart-product-quantity">Quantity</th>
                                     <th class="cart-product-subtotal">Total</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                {% for item in items %}
                                 <tr class="cart_item">
                                     <td class="cart-product-thumbnail">
-                                        <a href="#"><img width="64" height="64" src="images/shop/thumbs/small/dress-3.jpg" alt="Pink Printed Dress"></a>
+                                        <a href="#"><img width="64" height="64" src="{{ item.product.imagesURL }}" alt="{{ item.product.name }}"></a>
                                     </td>
-
+                
                                     <td class="cart-product-name">
-                                        <a href="#">Pink Printed Dress</a>
+                                        <a href="#">{{ item.product.name }}</a>
                                     </td>
-
+                
+                                    <td class="cart-product-price">
+                                        <span class="amount">${{ item.product.price }}</span>
+                                    </td>
+                
                                     <td class="cart-product-quantity">
-                                        <div class="quantity clearfix">
-                                            1x2
+                                        <div class="quantity">
+                                            <input type="text" name="quantity" value="{{ item.quantity }}" class="qty">
                                         </div>
                                     </td>
-
+                
                                     <td class="cart-product-subtotal">
-                                        <span class="amount">$39.98</span>
+                                        <span class="amount">${{ item.get_total }}</span>
                                     </td>
                                 </tr>
-                                <tr class="cart_item">
-                                    <td class="cart-product-thumbnail">
-                                        <a href="#"><img width="64" height="64" src="images/shop/thumbs/small/shoes-2.jpg" alt="Checked Canvas Shoes"></a>
-                                    </td>
-
-                                    <td class="cart-product-name">
-                                        <a href="#">Checked Canvas Shoes</a>
-                                    </td>
-
-                                    <td class="cart-product-quantity">
-                                        <div class="quantity clearfix">
-                                            1x1
-                                        </div>
-                                    </td>
-
-                                    <td class="cart-product-subtotal">
-                                        <span class="amount">$24.99</span>
-                                    </td>
-                                </tr>
-                                <tr class="cart_item">
-                                    <td class="cart-product-thumbnail">
-                                        <a href="#"><img width="64" height="64" src="images/shop/thumbs/small/tshirt-2.jpg" alt="Pink Printed Dress"></a>
-                                    </td>
-
-                                    <td class="cart-product-name">
-                                        <a href="#">Blue Men Tshirt</a>
-                                    </td>
-
-                                    <td class="cart-product-quantity">
-                                        <div class="quantity clearfix">
-                                            1x3
-                                        </div>
-                                    </td>
-
-                                    <td class="cart-product-subtotal">
-                                        <span class="amount">$41.97</span>
-                                    </td>
-                                </tr>
+                                {% endfor %}
                             </tbody>
-
+                
                         </table>
                     </div>
                 </div>
@@ -211,6 +189,8 @@
         if (this.value == 1) {
             $(".form-address").addClass("d-none");
             $(".address-list").removeClass("d-none")
+            var total = '{{ order.get_cart_total }}'
+            console.log(total)
         }else {
             $(".address-list").addClass("d-none");
             $(".form-address").removeClass("d-none")
@@ -273,6 +253,45 @@
 
     </script> {% endcomment %}
     
+<script>
+    $(document).ready(function() {
+        $('#province').on('change', function() {
+        $('.city').html(null)
+        $('.area').html(null)
+        let province = $('.province').val()
+        $.ajax({
+          url: '{% url "province" %}',
+          type: 'GET',
+          data : {
+                  'province': province
+          },
+          success: function(resp){
+              resp.data.forEach(x => {
+                $(`<option value="${ x.id }"> ${ x.name } </option>`).appendTo($('.city'))
+              });
+              }
+      });
+      })
+      $('#city').on('change', function() {
+        $('.area').html(null)
+        let city = $('.city').val()
+        $.ajax({
+          url: '{% url "city" %}',
+          type: 'GET',
+          data : {
+                  'city': city
+          },
+          success: function(resp){
+              resp.data.forEach(x => {
+                console.log(x)
+                $(`<option value="${ x.id }"> ${ x.name } </option>`).appendTo($('.area'))
+              });
+              }
+      });
+      })
+    })
+    
+</script>
 
 
 {% endblock js %}
