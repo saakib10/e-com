@@ -1,107 +1,200 @@
 {% extends 'base.html' %}
 {% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/bs-select.css' %}" type="text/css" />
+<style>
+
+	.white-section {
+		background-color: #FFF;
+		padding: 25px 20px;
+		-webkit-box-shadow: 0px 1px 1px 0px #dfdfdf;
+		box-shadow: 0px 1px 1px 0px #dfdfdf;
+		border-radius: 3px;
+	}
+
+	.white-section label {
+		display: block;
+		margin-bottom: 15px;
+	}
+
+	.white-section pre { margin-top: 15px; }
+
+	.dark .white-section {
+		background-color: #111;
+		-webkit-box-shadow: 0px 1px 1px 0px #444;
+		box-shadow: 0px 1px 1px 0px #444;
+	}
+
+	</style>
+{% endblock css %}
 {% block content %}
     <div class="cart-box-main">
         <div class="container">
-            <div class="row new-account-login hidden">
-                <div class="col-sm-6 col-lg-6 mb-3">
-                    <div class="title-left">
-                        <h3>Account Login</h3>
+            
+            <div class="row col-mb-50 gutter-50 hidden">
+                <div class="col-lg-6 bottommargin-sm">
+                    <div class="white-section">
+                        <div class="form-check">
+                            <input class="form-check-input" value="1" type="checkbox" id="gridCheck">
+                            <label class="form-check-label" for="gridCheck">Custoemr Default Address</label>
+                        </div>
                     </div>
-                    <h5><a data-toggle="collapse" href="#formLogin" role="button" aria-expanded="false">Click here to Login</a></h5>
-                    <form class="mt-3 collapse review-form-box" id="formLogin">
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="InputEmail" class="mb-0">Email Address</label>
-                                <input type="email" class="form-control" id="InputEmail" placeholder="Enter Email"> </div>
-                            <div class="form-group col-md-6">
-                                <label for="InputPassword" class="mb-0">Password</label>
-                                <input type="password" class="form-control" id="InputPassword" placeholder="Password"> </div>
+                    <div class="white-section form-address">
+                        <div class="row" style="background-color: #F5F5F5; padding: 17px;">
+                            <div class="col-lg-6">
+                                <label>Province</label>
+                                    <select class="selectpicker" data-size="5">
+                                        <option>Mustard</option>
+                                    </select>
+                            </div>
+                            <div class="col-lg-6">
+                                <label>City</label>
+                                    <select class="selectpicker" data-size="5">
+                                        <option>Mustard</option>
+                                    </select>
+                            </div>
+                            <div class="col-lg-12 mt-5">
+                                <label>Area</label>
+                                    <select class="selectpicker" data-size="5">
+                                        <option>Mustard</option>
+                                    </select>
+                            </div>
+                            <div class="col-lg-12 mt-5">
+                                <div class="form-group">
+                                    <label for="exampleFormControlTextarea1">Address</label>
+                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                </div>
+                            </div>
+                            
                         </div>
-                        <button type="submit" class="btn hvr-hover">Login</button>
-                    </form>
-                </div>
-                <div class="col-sm-6 col-lg-6 mb-3">
-                    <div class="title-left">
-                        <h3>Create New Account</h3>
                     </div>
-                    <h5><a data-toggle="collapse" href="#formRegister" role="button" aria-expanded="false">Click here to Register</a></h5>
-                    <form class="mt-3 collapse review-form-box" id="formRegister">
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="InputName" class="mb-0">First Name</label>
-                                <input type="text" class="form-control" id="InputName" placeholder="First Name"> </div>
-                            <div class="form-group col-md-6">
-                                <label for="InputLastname" class="mb-0">Last Name</label>
-                                <input type="text" class="form-control" id="InputLastname" placeholder="Last Name"> </div>
-                            <div class="form-group col-md-6">
-                                <label for="InputEmail1" class="mb-0">Email Address</label>
-                                <input type="email" class="form-control" id="InputEmail1" placeholder="Enter Email"> </div>
-                            <div class="form-group col-md-6">
-                                <label for="InputPassword1" class="mb-0">Password</label>
-                                <input type="password" class="form-control" id="InputPassword1" placeholder="Password"> </div>
+                    <div class="white-section address-list d-none">
+                        <div class="promo promo-light p-4 p-md-5 mb-5">
+                            <div class="row align-items-center">
+                                <div class="col-10 col-lg">
+                                    {% if address.province %}<h4 class="m-1">{{ address.province }}</h4>{% endif %}
+                                    {% if address.city %}<h4 class="m-1">{{ address.city }}</h4>{% endif %}
+                                    {% if address.province %}<h4 class="m-1">{{ address.area }}</h4>{% endif %}
+                                    {% if address.province %}
+                                        <span><h4>{{ address.address }}</h4></span>
+                                    {% endif %}
+                                </div>
+                                <div class="col-2 col-lg-auto mt-4 mt-lg-0">
+                                    <a href="#" class="button button-3d button-black m-0">Start Trial</a>
+                                </div>
+                            </div>
                         </div>
-                        <button type="submit" class="btn hvr-hover">Register</button>
-                    </form>
-                </div>
-            </div>
-            <div class="row">
-                <div id="form-hide" class="col-sm-6 col-lg-6 mb-3">
-                    <div class="checkout-address">
-                        <div class="title-left">
-                            <h3>Order address</h3>
-                        </div>
-                        <form id="form" class="needs-validation" novalidate>
-
-                            <div class="mb-3">
-                                <div class="form-field">
-							        <input class="form-control" type="text" name="mobile" placeholder="Mobile..">
-						        </div>
-                            </div>
-                            <div class="mb-3">
-                                <div class="form-field">
-							        <input class="form-control" type="email" name="email" placeholder="Email ..">
-						        </div>
-                            </div>
-                            <div class="mb-3">
-                                <div class="form-field">
-							        <input class="form-control" type="text" name="address" placeholder="Address..">
-						        </div>
-                            </div>
-
-
-                            <button id="payment-submit" class="btn hvr-hover" type="submit">Continue</button>
-
-
-                        </form>
-
                     </div>
+
                 </div>
-                <div class="col-sm-6 col-lg-6 mb-3">
-                    <div class="row">
+                
+                <div class="col-lg-6">
+                    <h4>Cart Totals</h4>
+
+                    <div class="table-responsive">
+                        <table class="table cart">
+                            <tbody>
+                                <tr class="cart_item">
+                                    <td class="border-top-0 cart-product-name">
+                                        <strong>Cart Subtotal</strong>
+                                    </td>
+
+                                    <td class="border-top-0 cart-product-name">
+                                        <span class="amount">{{ order.get_cart_items }}</span>
+                                    </td>
+                                </tr>
+                                <tr class="cart_item">
+                                    <td class="cart-product-name">
+                                        <strong>Total</strong>
+                                    </td>
+
+                                    <td class="cart-product-name">
+                                        <span class="amount color lead"><strong>${{ order.get_cart_total }}</strong></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <a href="#" class="button button-3d button-black m-0">Place Order</a>
+                </div>
 
 
-                        <div class="col-md-12 col-lg-12">
-                            <div class="order-box">
-                                <div class="title-left">
-                                    <h3>Your order</h3>
-                                </div>
-                                <div class="d-flex">
-                                    <div class="font-weight-bold">Product</div>
-                                    <div class="ml-auto font-weight-bold">Total</div>
-                                </div>
-                                <hr class="my-1">
-                                <div class="d-flex">
-                                    <h4>Total Item</h4>
-                                    <div class="ml-auto font-weight-bold"> {{ order.get_cart_items }} </div>
-                                </div>
-                                <div class="d-flex gr-total">
-                                    <h5>Grand Total</h5>
-                                    <div class="ml-auto h5"> $ {{ order.get_cart_total }} </div>
-                                </div>
-                                <hr> </div>
-                        </div>
-                        <!--<div class="col-12 d-flex shopping-box"> <a href="" class="ml-auto btn hvr-hover">Place Order</a> </div> -->
+                <div class="w-100"></div>
+
+                <div class="col-lg-6">
+                    <h4>Your Orders</h4>
+
+                    <div class="table-responsive">
+                        <table class="table cart">
+                            <thead>
+                                <tr>
+                                    <th class="cart-product-thumbnail">&nbsp;</th>
+                                    <th class="cart-product-name">Product</th>
+                                    <th class="cart-product-quantity">Quantity</th>
+                                    <th class="cart-product-subtotal">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="cart_item">
+                                    <td class="cart-product-thumbnail">
+                                        <a href="#"><img width="64" height="64" src="images/shop/thumbs/small/dress-3.jpg" alt="Pink Printed Dress"></a>
+                                    </td>
+
+                                    <td class="cart-product-name">
+                                        <a href="#">Pink Printed Dress</a>
+                                    </td>
+
+                                    <td class="cart-product-quantity">
+                                        <div class="quantity clearfix">
+                                            1x2
+                                        </div>
+                                    </td>
+
+                                    <td class="cart-product-subtotal">
+                                        <span class="amount">$39.98</span>
+                                    </td>
+                                </tr>
+                                <tr class="cart_item">
+                                    <td class="cart-product-thumbnail">
+                                        <a href="#"><img width="64" height="64" src="images/shop/thumbs/small/shoes-2.jpg" alt="Checked Canvas Shoes"></a>
+                                    </td>
+
+                                    <td class="cart-product-name">
+                                        <a href="#">Checked Canvas Shoes</a>
+                                    </td>
+
+                                    <td class="cart-product-quantity">
+                                        <div class="quantity clearfix">
+                                            1x1
+                                        </div>
+                                    </td>
+
+                                    <td class="cart-product-subtotal">
+                                        <span class="amount">$24.99</span>
+                                    </td>
+                                </tr>
+                                <tr class="cart_item">
+                                    <td class="cart-product-thumbnail">
+                                        <a href="#"><img width="64" height="64" src="images/shop/thumbs/small/tshirt-2.jpg" alt="Pink Printed Dress"></a>
+                                    </td>
+
+                                    <td class="cart-product-name">
+                                        <a href="#">Blue Men Tshirt</a>
+                                    </td>
+
+                                    <td class="cart-product-quantity">
+                                        <div class="quantity clearfix">
+                                            1x3
+                                        </div>
+                                    </td>
+
+                                    <td class="cart-product-subtotal">
+                                        <span class="amount">$41.97</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                        </table>
                     </div>
                 </div>
             </div>
@@ -109,7 +202,23 @@
         </div>
     </div>
 
-    <script type="text/javascript">
+{% endblock content %}
+
+{% block js %}
+<script>
+    $('#gridCheck').on('change', function(){
+        this.value = this.checked ? 1 : 0;
+        if (this.value == 1) {
+            $(".form-address").addClass("d-none");
+            $(".address-list").removeClass("d-none")
+        }else {
+            $(".address-list").addClass("d-none");
+            $(".form-address").removeClass("d-none")
+        }
+     }).change();
+</script>
+
+    {% comment %} <script type="text/javascript">
 
         var total = '{{ order.get_cart_total }}'
         var form = document.getElementById('form')
@@ -162,6 +271,8 @@
 		}
 
 
-    </script>
+    </script> {% endcomment %}
+    
 
-{% endblock content %}
+
+{% endblock js %}
