@@ -67,7 +67,8 @@
                             </div>
                             <div class="col-lg-12 mt-5">
                                 <label>Area</label>
-                                    <select class="selectpicker" id="area" data-size="5">
+                                    <select name="area" class="selectpicker customjs filter-item" data-size="7" data-live-search="true" title="Select Area" style="width:100%; line-height: 30px;">
+                                        <optgroup id="area"></optgroup>
                                     </select>
                             </div>
                             <div class="col-lg-12 mt-5">
@@ -242,10 +243,12 @@
             }
 
 
-            customerInfo.province = $('#province').val()
-            customerInfo.city = $('#city').val()
-            customerInfo.area = $('#area').val()
+            customerInfo.province = $('#province').parent().val()
+            customerInfo.city = $('#city').parent().val()
+            customerInfo.area = $('#area').parent().val()
             customerInfo.address = $('#exampleFormControlTextarea1').val()
+
+            console.log(customerInfo)
 
             var url = '/process_order/'
             fetch(url, {
@@ -280,6 +283,7 @@
             },
             success: function(resp){
                 $('#city').empty()
+                $('#area').empty()
                 resp.data.forEach(x => {
                     console.log(x)
 
@@ -289,23 +293,23 @@
             }
         });
       })
-      {% comment %} $('#city').on('change', function() {
-        $('.area').html(null)
-        let city = $('.city').val()
+      $('#city').parent().on('change', function() {
+        let city = $('#city').parent().val()
         $.ajax({
           url: '{% url "city" %}',
           type: 'GET',
           data : {
                   'city': city
           },
-          success: function(resp){
-              resp.data.forEach(x => {
-                console.log(x)
-                $(`<option value="${ x.id }"> ${ x.name } </option>`).appendTo($('#area'))
-              });
-              }
+        success: function(resp){
+            $('#area').empty()
+            resp.data.forEach(x => {
+            $(`<option value="${ x.id }">${ x.name }</option>`).appendTo($("#area"))
+            });
+            $('#area').parent().selectpicker('refresh');
+        }
       });
-      }) {% endcomment %}
+      })
     })
     
 </script>
