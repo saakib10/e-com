@@ -12,6 +12,7 @@ from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.template.defaulttags import register
 from django.urls import resolve
+from .utils import get_customer_address
 
 
 
@@ -140,6 +141,8 @@ def checkout(request):
         # else:
         #     province = Province.objects.all()
         #     context['province'] = province
+        province = Province.objects.all()
+        context["province"] = province
         address = get_customer_address(customer)
         context['address'] = address
         
@@ -151,18 +154,6 @@ def checkout(request):
     context['order']= order
     context['cartItems'] = cartItems
     return render(request,'checkout.html',context)
-
-
-# Get Customer Address For 
-def get_customer_address(customer):
-    addr = CustomerAddress.objects.get(customer = customer)
-    if addr:
-            return {
-                'province':addr.province,
-                'city':addr.city,
-                'area':addr.area,
-                'address':addr.address
-            }
 
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
@@ -209,9 +200,10 @@ def processOrder(request):
         OrderDetail.objects.create(
             customer=customer,
             order=order,
-            mobile=data['form']['mobile'],
-            emailaddress=data['form']['email'],
-            address=data['form']['address']
+            province=data['form']['province'],
+            city=data['form']['city'],
+            area=data['form']['area'],
+            address = data['form']['address']
         )
 
         if total == order.get_cart_total:

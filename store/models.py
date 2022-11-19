@@ -123,34 +123,6 @@ class OrderItem(models.Model):
             self.category = self.product.category
 
         super().save(*args, **kwargs)
-
-class OrderDetail(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, blank=True, null=True)
-    order = models.ForeignKey(Order, on_delete=models.SET_NULL, blank=True, null=True)
-
-    mobile = models.CharField(max_length=14, null=True)
-    emailaddress = models.CharField(max_length=200, null=True)
-    address = models.CharField(max_length=200, null=True)
-    date_added = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.address
-    
-class HomepageSlideshow(models.Model):
-    image = models.ImageField(null=True, blank=True)
-    heading = models.CharField(max_length=200, null=True)
-    
-    @property
-    def imagesURL(self):
-        try:
-            url = self.image.url
-        except:
-            url = ''
-        return url
-    
-    def __str__(self):
-        return self.heading
-    
 class Province(models.Model):
     name = models.CharField(max_length=20, null=True)
     
@@ -170,6 +142,37 @@ class Area(models.Model):
     
     def __str__(self):
         return self.name
+
+class OrderDetail(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, blank=True, null=True)
+    order = models.ForeignKey(Order, on_delete=models.SET_NULL, blank=True, null=True)
+
+    mobile = models.CharField(max_length=14, null=True)
+    emailaddress = models.CharField(max_length=200, null=True)
+    address = models.CharField(max_length=200, null=True)
+    date_added = models.DateTimeField(auto_now_add=True)
+    province = models.ForeignKey(Province, on_delete=models.SET_NULL, blank=True, null=True)
+    city = models.ForeignKey(City, on_delete=models.SET_NULL, blank=True, null=True)
+    area = models.ForeignKey(Area, on_delete=models.SET_NULL, blank=True, null=True)
+
+    def __str__(self):
+        return self.address
+    
+class HomepageSlideshow(models.Model):
+    image = models.ImageField(null=True, blank=True)
+    heading = models.CharField(max_length=200, null=True)
+    
+    @property
+    def imagesURL(self):
+        try:
+            url = self.image.url
+        except:
+            url = ''
+        return url
+    
+    def __str__(self):
+        return self.heading
+    
 
 class CustomerAddress(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, blank=True, null=True)

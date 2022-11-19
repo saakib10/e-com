@@ -50,21 +50,24 @@
                     <div class="white-section form-address">
                         <div class="row" style="background-color: #F5F5F5; padding: 17px;">
                             <div class="col-lg-6">
-                                <label>Province</label>
-                                    <select class="selectpicker" id="province" data-size="5">
-                                        <option>Mustard</option>
-                                    </select>
+                                <label>Select Province</label>
+                                    <select name="province" class="selectpicker customjs filter-item" data-size="7" data-live-search="true" title="Select Province" style="width:100%; line-height: 30px;">
+                                    <optgroup id="province">
+                                        {% for pro in province %}
+                                                <option value="{{ pro.id }}">{{ pro.name }}</option>
+                                        {% endfor %}
+                                    </optgroup>
+                                </select>
                             </div>
                             <div class="col-lg-6">
-                                <label>City</label>
-                                    <select class="selectpicker" id="city" data-size="5">
-                                        <option>Mustard</option>
-                                    </select>
+                                <label>Select City</label>
+                                    <select name="city" class="selectpicker customjs filter-item" data-size="7" data-live-search="true" title="Select City" style="width:100%; line-height: 30px;">
+                                    <optgroup id="city"></optgroup>
+                                </select>
                             </div>
                             <div class="col-lg-12 mt-5">
                                 <label>Area</label>
                                     <select class="selectpicker" id="area" data-size="5">
-                                        <option>Mustard</option>
                                     </select>
                             </div>
                             <div class="col-lg-12 mt-5">
@@ -80,11 +83,15 @@
                         <div class="promo promo-light p-4 p-md-5 mb-5">
                             <div class="row align-items-center">
                                 <div class="col-12 col-lg">
-                                    {% if address.province %}<h4 class="m-1">{{ address.province }}</h4>{% endif %}
-                                    {% if address.city %}<h4 class="m-1">{{ address.city }}</h4>{% endif %}
-                                    {% if address.area %}<h4 class="m-1">{{ address.area }}</h4>{% endif %}
-                                    {% if address.address %}
-                                        <span><h4>{{ address.address }}</h4></span>
+                                    {% if address %}
+                                        {% if address.province %}<h4 class="m-1">{{ address.province }}</h4>{% endif %}
+                                        {% if address.city %}<h4 class="m-1">{{ address.city }}</h4>{% endif %}
+                                        {% if address.area %}<h4 class="m-1">{{ address.area }}</h4>{% endif %}
+                                        {% if address.address %}
+                                            <span><h4>{{ address.address }}</h4></span>
+                                        {% endif %}
+                                    {% else %}
+                                        <h4 class="m-1">Address Not Set Yet</h4>
                                     {% endif %}
                                 </div>
                                 <!-- <div class="col-2 col-lg-auto mt-4 mt-lg-0"> -->
@@ -124,7 +131,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <a href="#" class="button button-3d button-black m-0">Place Order</a>
+                    <button class="button button-3d button-black m-0" id="place-order">Place Order</button>
                 </div>
 
 
@@ -190,89 +197,99 @@
             $(".form-address").addClass("d-none");
             $(".address-list").removeClass("d-none")
             var total = '{{ order.get_cart_total }}'
-            console.log(total)
         }else {
             $(".address-list").addClass("d-none");
             $(".form-address").removeClass("d-none")
         }
      }).change();
 </script>
+{% comment %} <script>
+    $("#place-order").on('click', function(){
+    let user_address = $("#gridCheck").val()
+    $.ajax({
+        url: '{% url "customer_address" %}',
+        type: 'GET',
+        data: {
+            'user_address' : user_address
+        },
+        success: function(resp){
+            console.log(resp)
+        }
+    });
+    })
+</script> {% endcomment %}
+    
+    <script type="text/javascript">
 
-    {% comment %} <script type="text/javascript">
+        
 
-        var total = '{{ order.get_cart_total }}'
-        var form = document.getElementById('form')
-
-        if ( user == 'AnonymousUser'){
+        {% comment %} if ( user == 'AnonymousUser'){
 			document.getElementById('form-hide').classList.add("hidden");
 
 
-		}
+		} {% endcomment %}
 
-        form.addEventListener('submit',function(e){
-			e.preventDefault()
-			})
-        document.getElementById('payment-submit').addEventListener('click',function(){
-			console.log('submitted...')
-			customerFormData()
-		})
-		function customerFormData(){
+        $("#place-order").on('click', function(){
+            var total = '{{ order.get_cart_total }}'
 
             var customerInfo = {
-                'mobile' : null,
-                'email' : null,
+                'province' : null,
+                'city' : null,
+                'area' : null,
                 'address' : null,
-                'total' : total,
+                total: total
 
             }
 
 
-            customerInfo.mobile = form.mobile.value
-            customerInfo.email = form.email.value
-            customerInfo.address = form.address.value
+            customerInfo.province = $('#province').val()
+            customerInfo.city = $('#city').val()
+            customerInfo.area = $('#area').val()
+            customerInfo.address = $('#exampleFormControlTextarea1').val()
 
             var url = '/process_order/'
-			fetch(url, {
-				method : 'POST',
-				headers : {
-					'Content-Type':'application/json',
-					'X-CSRFToken': csrftoken,
-				},
-				body:JSON.stringify({'form':customerInfo})
+            fetch(url, {
+                method : 'POST',
+                headers : {
+                    'Content-Type':'application/json',
+                    'X-CSRFToken': csrftoken,
+                },
+                body:JSON.stringify({'form':customerInfo})
 
-			})
-			.then((response) => response.json())
-			.then((data) => {
-				alert('transaction complete');
-				window.location.href = "{% url 'shop' %}"
-			})
-
-
-		}
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                alert('transaction complete');
+                window.location.href = "{% url 'shop' %}"
+            })
+        })
 
 
-    </script> {% endcomment %}
+
+    </script>
     
 <script>
     $(document).ready(function() {
-        $('#province').on('change', function() {
-        $('.city').html(null)
-        $('.area').html(null)
-        let province = $('.province').val()
-        $.ajax({
-          url: '{% url "province" %}',
-          type: 'GET',
-          data : {
-                  'province': province
-          },
-          success: function(resp){
-              resp.data.forEach(x => {
-                $(`<option value="${ x.id }"> ${ x.name } </option>`).appendTo($('.city'))
-              });
-              }
-      });
+        $('#province').parent().on('change', function() {
+            let province = $('#province').parent().val()
+            $.ajax({
+            url: '{% url "province" %}',
+            type: 'GET',
+            data : {
+                    'province': province
+            },
+            success: function(resp){
+                $('#city').empty()
+                resp.data.forEach(x => {
+                    console.log(x)
+
+                    $(`<option value="${ x.id }">${ x.name }</option>`).appendTo($("#city"))
+                });
+                $('#city').parent().selectpicker('refresh');
+            }
+        });
       })
-      $('#city').on('change', function() {
+      {% comment %} $('#city').on('change', function() {
         $('.area').html(null)
         let city = $('.city').val()
         $.ajax({
@@ -284,11 +301,11 @@
           success: function(resp){
               resp.data.forEach(x => {
                 console.log(x)
-                $(`<option value="${ x.id }"> ${ x.name } </option>`).appendTo($('.area'))
+                $(`<option value="${ x.id }"> ${ x.name } </option>`).appendTo($('#area'))
               });
               }
       });
-      })
+      }) {% endcomment %}
     })
     
 </script>

@@ -68,7 +68,6 @@ def set_address_for_customer(request):
         else:
             province = Province.objects.all()
             context['province'] = province
-        print(context)
     return render(request,'address_set.html',context)
 
 def is_ajax(request):
@@ -76,6 +75,7 @@ def is_ajax(request):
 
 def get_city_data(request):
         if is_ajax(request):
+            print("pppp")
             province = request.GET.get("province")
             if not province:
                 return
