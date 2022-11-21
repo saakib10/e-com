@@ -54,7 +54,7 @@
                                     <select name="province" class="selectpicker customjs filter-item" data-size="7" data-live-search="true" title="Select Province" style="width:100%; line-height: 30px;">
                                     <optgroup id="province">
                                         {% for pro in province %}
-                                                <option value="{{ pro.id }}">{{ pro.name }}</option>
+                                                <option value="{{ pro.name }}">{{ pro.name }}</option>
                                         {% endfor %}
                                     </optgroup>
                                 </select>
@@ -137,7 +137,7 @@
 
 
                 <div class="w-100"></div>
-
+                {% if item %}
                 <div class="col-lg-6">
                     <h4>Your Orders</h4>
 
@@ -183,6 +183,7 @@
                         </table>
                     </div>
                 </div>
+                {% endif %}
             </div>
 
         </div>
@@ -285,9 +286,7 @@
                 $('#city').empty()
                 $('#area').empty()
                 resp.data.forEach(x => {
-                    console.log(x)
-
-                    $(`<option value="${ x.id }">${ x.name }</option>`).appendTo($("#city"))
+                    $(`<option value="${ x.name }">${ x.name }</option>`).appendTo($("#city"))
                 });
                 $('#city').parent().selectpicker('refresh');
             }
@@ -304,7 +303,7 @@
         success: function(resp){
             $('#area').empty()
             resp.data.forEach(x => {
-            $(`<option value="${ x.id }">${ x.name }</option>`).appendTo($("#area"))
+            $(`<option value="${ x.name }">${ x.name }</option>`).appendTo($("#area"))
             });
             $('#area').parent().selectpicker('refresh');
         }

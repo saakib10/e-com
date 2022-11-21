@@ -149,12 +149,11 @@ class OrderDetail(models.Model):
 
     mobile = models.CharField(max_length=14, null=True)
     emailaddress = models.CharField(max_length=200, null=True)
-    address = models.CharField(max_length=200, null=True)
+    address = models.CharField(max_length=200, null=False,default="")
     date_added = models.DateTimeField(auto_now_add=True)
-    province = models.ForeignKey(Province, on_delete=models.SET_NULL, blank=True, null=True)
-    city = models.ForeignKey(City, on_delete=models.SET_NULL, blank=True, null=True)
-    area = models.ForeignKey(Area, on_delete=models.SET_NULL, blank=True, null=True)
-
+    province = models.CharField(max_length=200, null=False,default="")
+    city = models.CharField(max_length=200, null=False,default="")
+    area = models.CharField(max_length=200, null=False,default="")
     def __str__(self):
         return self.address
     
