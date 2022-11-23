@@ -193,28 +193,56 @@ def processOrder(request):
     if request.user.is_authenticated:
         customer = request.user.customer
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
-        total = float(data['form']['total'])
-        order.transaction_id = transaction_id
-        order.total = total
+        if int(data.get('user_address')) == 1:
+            address = get_customer_address(customer)
+            OrderDetail.objects.create(
+                customer=customer,
+                order=order,
+                province=address.get('province'),
+                city=address.get('city'),
+                area = address.get('area'),
+                address=address.get('address'),
+                mobile = customer.mobile,
+                emailaddress = customer.email
+            )
+            if float(data.get('total')) == order.get_cart_total:
+                order.complete = True
+                orderitems = OrderItem.objects.filter(order = order.id).values()
+                if orderitems:
+                    for item in orderitems:
+                        product = Product.objects.get(id = item.get("product_id"))
+                        product.total_orders += item.get("quantity")
+                        product.save()
+            order.save()
+        else:
+            total = float(data['form']['total'])
+            order.transaction_id = transaction_id
+            order.total = total
+            if data['form']['province']:
+                province = Province.objects.get(id = data['form']['province']).name
+            if data['form']['city']:
+                city = City.objects.get(id = data['form']['province']).name
+            
+            OrderDetail.objects.create(
+                customer=customer,
+                order=order,
+                province=province,
+                city=city,
+                area=data['form']['area'],
+                address = data['form']['address'],
+                mobile = customer.mobile,
+                emailaddress = customer.email
+            )
 
-        OrderDetail.objects.create(
-            customer=customer,
-            order=order,
-            province=data['form']['province'],
-            city=data['form']['city'],
-            area=data['form']['area'],
-            address = data['form']['address']
-        )
-
-        if total == order.get_cart_total:
-            order.complete = True
-            orderitems = OrderItem.objects.filter(order = order.id).values()
-            if orderitems:
-                for item in orderitems:
-                    product = Product.objects.get(id = item.get("product_id"))
-                    product.total_orders += item.get("quantity")
-                    product.save()
-        order.save()
+            if total == order.get_cart_total:
+                order.complete = True
+                orderitems = OrderItem.objects.filter(order = order.id).values()
+                if orderitems:
+                    for item in orderitems:
+                        product = Product.objects.get(id = item.get("product_id"))
+                        product.total_orders += item.get("quantity")
+                        product.save()
+            order.save()
 
         # template = render_to_string('store/order.html',{'name':request.user.username})
         # subject = 'Order Confirmations'

@@ -49,31 +49,32 @@
                     </div>
                     <div class="white-section form-address">
                         <div class="row" style="background-color: #F5F5F5; padding: 17px;">
-                            <div class="col-lg-6">
-                                <label>Select Province</label>
-                                    <select name="province" class="selectpicker customjs filter-item" data-size="7" data-live-search="true" title="Select Province" style="width:100%; line-height: 30px;">
-                                    <optgroup id="province">
-                                        {% for pro in province %}
-                                                <option value="{{ pro.name }}">{{ pro.name }}</option>
-                                        {% endfor %}
-                                    </optgroup>
+                            <div class="col-lg-6" id="pro-id" style="padding: 18px;">
+                                <label >Select Province *</label>
+                                <select name="province" class="selectpicker customjs filter-item" data-size="7" data-live-search="true" title="Select Province" style="width:100%; line-height: 30px;">
+                                <optgroup id="province">
+                                    <option value=""></option>
+                                    {% for pro in province %}
+                                            <option value="{{ pro.id }}">{{ pro.name }}</option>
+                                    {% endfor %}
+                                </optgroup>
                                 </select>
                             </div>
-                            <div class="col-lg-6">
-                                <label>Select City</label>
+                            <div class="col-lg-6" id="city-id" style="padding: 18px;">
+                                <label>Select City *</label>
                                     <select name="city" class="selectpicker customjs filter-item" data-size="7" data-live-search="true" title="Select City" style="width:100%; line-height: 30px;">
                                     <optgroup id="city"></optgroup>
                                 </select>
                             </div>
-                            <div class="col-lg-12 mt-5">
-                                <label>Area</label>
+                            <div class="col-lg-12 mt-5" id="area-id" style="padding: 18px;">
+                                <label>Area *</label>
                                     <select name="area" class="selectpicker customjs filter-item" data-size="7" data-live-search="true" title="Select Area" style="width:100%; line-height: 30px;">
                                         <optgroup id="area"></optgroup>
                                     </select>
                             </div>
-                            <div class="col-lg-12 mt-5">
+                            <div class="col-lg-12 mt-5" id="address-id">
                                 <div class="form-group">
-                                    <label for="exampleFormControlTextarea1">Address</label>
+                                    <label for="exampleFormControlTextarea1">Address *</label>
                                     <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
                                 </div>
                             </div>
@@ -205,8 +206,8 @@
         }
      }).change();
 </script>
-{% comment %} <script>
-    $("#place-order").on('click', function(){
+<script>
+    {% comment %} $("#place-order").on('click', function(){
     let user_address = $("#gridCheck").val()
     $.ajax({
         url: '{% url "customer_address" %}',
@@ -218,8 +219,8 @@
             console.log(resp)
         }
     });
-    })
-</script> {% endcomment %}
+    }) {% endcomment %}
+</script>
     
     <script type="text/javascript">
 
@@ -232,48 +233,87 @@
 		} {% endcomment %}
 
         $("#place-order").on('click', function(){
-            var total = '{{ order.get_cart_total }}'
 
-            var customerInfo = {
-                'province' : null,
-                'city' : null,
-                'area' : null,
-                'address' : null,
-                total: total
+            let user_address = $("#gridCheck").val()
+            if (user_address == 1) {
+                var total = '{{ order.get_cart_total }}'
+                var url = '/process_order/'
+                fetch(url, {
+                    method : 'POST',
+                    headers : {
+                        'Content-Type':'application/json',
+                        'X-CSRFToken': csrftoken,
+                    },
+                    body:JSON.stringify({'total':total,'user_address':user_address})
+
+                })
+                .then((response) => response.json())
+                .then((data) => {
+                    alert('transaction complete');
+                    window.location.href = "{% url 'shop' %}"
+                })
+            }else{
+
+                // validate Form 
+                province = $('#province').parent().val()
+                city = $('#city').parent().val()
+                area = $('#area').parent().val()
+                address = $('#exampleFormControlTextarea1').val()
+
+                if (province == "") {
+                    $('#pro-id').css("box-shadow","0 0 5px 2px #be4e4e")
+                }
+                if (city == "") {
+                    $('#city-id').css("box-shadow","0 0 5px 2px #be4e4e")
+                }
+                if (area == "") {
+                    $('#area-id').css("box-shadow","0 0 5px 2px #be4e4e")
+                }if (address == "") {
+                    $('#address-id').css("box-shadow","0 0 5px 2px #be4e4e")
+                }
+                if (province && city && area && address){
+                    var total = '{{ order.get_cart_total }}'
+
+                    var customerInfo = {
+                        'province' : null,
+                        'city' : null,
+                        'area' : null,
+                        'address' : null,
+                        total: total
+                    }
+
+                    customerInfo.province = province
+                    customerInfo.city = city
+                    customerInfo.area = area
+                    customerInfo.address = address
+
+                    var url = '/process_order/'
+                    fetch(url, {
+                        method : 'POST',
+                        headers : {
+                            'Content-Type':'application/json',
+                            'X-CSRFToken': csrftoken,
+                        },
+                        body:JSON.stringify({'form':customerInfo})
+
+                    })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        alert('transaction complete');
+                        window.location.href = "{% url 'shop' %}"
+                    })
+                }
 
             }
 
-
-            customerInfo.province = $('#province').parent().val()
-            customerInfo.city = $('#city').parent().val()
-            customerInfo.area = $('#area').parent().val()
-            customerInfo.address = $('#exampleFormControlTextarea1').val()
-
-            console.log(customerInfo)
-
-            var url = '/process_order/'
-            fetch(url, {
-                method : 'POST',
-                headers : {
-                    'Content-Type':'application/json',
-                    'X-CSRFToken': csrftoken,
-                },
-                body:JSON.stringify({'form':customerInfo})
-
-            })
-            .then((response) => response.json())
-            .then((data) => {
-                alert('transaction complete');
-                window.location.href = "{% url 'shop' %}"
-            })
+            
         })
-
-
 
     </script>
     
 <script>
     $(document).ready(function() {
+
         $('#province').parent().on('change', function() {
             let province = $('#province').parent().val()
             $.ajax({
@@ -286,7 +326,7 @@
                 $('#city').empty()
                 $('#area').empty()
                 resp.data.forEach(x => {
-                    $(`<option value="${ x.name }">${ x.name }</option>`).appendTo($("#city"))
+                    $(`<option value="${ x.id }">${ x.name }</option>`).appendTo($("#city"))
                 });
                 $('#city').parent().selectpicker('refresh');
             }
