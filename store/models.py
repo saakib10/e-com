@@ -151,9 +151,10 @@ class OrderDetail(models.Model):
     emailaddress = models.CharField(max_length=200, null=True)
     address = models.CharField(max_length=200, null=False,default="")
     date_added = models.DateTimeField(auto_now_add=True)
-    province = models.CharField(max_length=200, null=False,default="")
-    city = models.CharField(max_length=200, null=False,default="")
-    area = models.CharField(max_length=200, null=False,default="")
+    province = models.CharField(max_length=30, null=False,default="")
+    city = models.CharField(max_length=30, null=False,default="")
+    area = models.CharField(max_length=30, null=False,default="")
+    
     def __str__(self):
         return self.address
     

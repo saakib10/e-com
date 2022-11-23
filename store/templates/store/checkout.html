@@ -206,32 +206,9 @@
         }
      }).change();
 </script>
-<script>
-    {% comment %} $("#place-order").on('click', function(){
-    let user_address = $("#gridCheck").val()
-    $.ajax({
-        url: '{% url "customer_address" %}',
-        type: 'GET',
-        data: {
-            'user_address' : user_address
-        },
-        success: function(resp){
-            console.log(resp)
-        }
-    });
-    }) {% endcomment %}
-</script>
     
     <script type="text/javascript">
-
         
-
-        {% comment %} if ( user == 'AnonymousUser'){
-			document.getElementById('form-hide').classList.add("hidden");
-
-
-		} {% endcomment %}
-
         $("#place-order").on('click', function(){
 
             let user_address = $("#gridCheck").val()

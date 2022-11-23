@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from django.shortcuts import get_list_or_404
 from django.http import JsonResponse
 from django.db.models import Q
+import json
 
 # Create your views here.
 def get_user_order_items(request):
@@ -95,11 +96,17 @@ def get_area_data(request):
         return HttpResponse('Wrong request')
     
 def save_user_address(request):
-    if is_ajax(request):
-        province = request.GET.get("province")
-        city = request.GET.get("city")
-        area = request.GET.get("area")
-        house = request.GET.get("house")
-        print(province)
-        customer = request.user.customer
-        CustomerAddress.objects.filter(customer=customer).update(province=province  or '',city= city or '',area = area or '',address=house or '')
+    data = json.loads(request.body)
+    province = Province.objects.get(id = int(data.get("province")))
+    city = City.objects.get(id = int(data.get("city")))
+    area = Area.objects.get(id = int(data.get("area")))
+    address = data.get("address")
+    customer = request.user.customer
+    address_exist = CustomerAddress.objects.filter(customer = customer).exists()
+    if address_exist:
+        address = CustomerAddress.objects.get(customer = customer)
+        address.province = province
+        address.city = city
+        address.area = area
+        address.address = f"{address}"
+        address.save()

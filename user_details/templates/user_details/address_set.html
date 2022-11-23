@@ -1,178 +1,86 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block css %}
+<link rel="stylesheet" href="{% static 'css/bs-select.css' %}" type="text/css" />
 <style>
-        html, body {
-            min-height: 100%;
-            }
-            body, div, .form, input, select, p { 
-            padding: 0;
-            margin: 0;
-            outline: none;
-            font-family: Roboto, Arial, sans-serif;
-            font-size: 16px;
-            color: #eee;
-            }
-            body {
-            background: url("/uploads/media/default/0001/01/b5edc1bad4dc8c20291c8394527cb2c5b43ee13c.jpeg") no-repeat center;
-            background-size: cover;
-            }
-            h1, h2 {
-            text-transform: uppercase;
-            font-weight: 400;
-            }
-            h2 {
-            margin: 0 0 0 8px;
-            }
-            .main-block {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-            padding: 25px;
-            background: rgba(0, 0, 0, 0.5); 
-            }
-            .left-part, .form {
-            padding: 25px;
-            }
-            .left-part {
-            text-align: center;
-            }
-            .fa-graduation-cap {
-            font-size: 72px;
-            }
-            .form {
-            background: rgba(0, 0, 0, 0.7); 
-            }
-            .title {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-            }
-            .info {
-            display: flex;
-            flex-direction: column;
-            }
-            input, select {
-            padding: 5px;
-            margin-bottom: 30px;
-            background: transparent;
-            border: none;
-            border-bottom: 1px solid #eee;
-            }
-            input::placeholder {
-            color: #eee;
-            }
-            option:focus {
-            border: none;
-            }
-            option {
-            background: black; 
-            border: none;
-            }
-            .checkbox input {
-            margin: 0 10px 0 0;
-            vertical-align: middle;
-            }
-            .checkbox a {
-            color: #26a9e0;
-            }
-            .checkbox a:hover {
-            color: #85d6de;
-            }
-            .btn-item, .sub {
-            padding: 10px 5px;
-            margin-top: 20px;
-            border-radius: 5px; 
-            border: none;
-            background: #26a9e0; 
-            text-decoration: none;
-            font-size: 15px;
-            font-weight: 400;
-            color: #fff;
-            }
-            .btn-item {
-            display: inline-block;
-            margin: 20px 5px 0;
-            }
-            .sub {
-            width: 100%;
-            }
-            .sub:hover, .btn-item:hover {
-            background: #85d6de;
-            }
-            @media (min-width: 568px) {
-            html, body {
-            height: 100%;
-            }
-            .main-block {
-            flex-direction: row;
-            height: calc(100% - 368px);
-            }
-            .left-part, .form {
-            flex: 1;
-            height: auto;
-            }
-            }
 
-</style>
-{% endblock css%}
+	.white-section {
+		background-color: #FFF;
+		padding: 25px 20px;
+		-webkit-box-shadow: 0px 1px 1px 0px #dfdfdf;
+		box-shadow: 0px 1px 1px 0px #dfdfdf;
+		border-radius: 3px;
+	}
+
+	.white-section label {
+		display: block;
+		margin-bottom: 15px;
+	}
+
+	.white-section pre { margin-top: 15px; }
+
+	.dark .white-section {
+		background-color: #111;
+		-webkit-box-shadow: 0px 1px 1px 0px #444;
+		box-shadow: 0px 1px 1px 0px #444;
+	}
+
+	</style>
+{% endblock css %}
 {% block content %}
 <div class="shop-box-inner">
-    <div class="container">
-        <div class="main-block">
-      <div class="left-part">
-        <i class="fas fa-graduation-cap"></i>
-        <h1>Register to our courses</h1>
-        <p>W3docs provides free learning materials for programming languages like HTML, CSS, Java Script, PHP etc.</p>
-        <div class="btn-group">
-          <a class="btn-item" href="https://www.w3docs.com/learn-html.html">Learn HTML</a>
-          <a class="btn-item" href="https://www.w3docs.com/quiz/#">Select Quiz</a>
+      <div class="container">
+        <div class="white-section form-address">
+            <div class="row" style="background-color: #F5F5F5; padding: 17px;">
+                <div class="col-lg-6" id="pro-id" style="padding: 18px;">
+                    <label >Select Province *</label>
+                    <select name="province" class="selectpicker customjs filter-item" data-size="7" data-live-search="true" title="Select Province" style="width:100%; line-height: 30px;">
+                    <optgroup id="province">
+                        {% if details.province %}
+                                <option value="{{ details.province.id }}">{{ details.province.name }}</option>
+                        {% endif %}
+                        {% for x in province %}
+                          <option value="{{ x.id }}">{{ x.name }}</option>
+                        {% endfor %}
+                        
+                    </optgroup>
+                    </select>
+                </div>
+                <div class="col-lg-6" id="city-id" style="padding: 18px;">
+                    <label>Select City *</label>
+                        <select name="city" class="selectpicker customjs filter-item" data-size="7" data-live-search="true" title="Select City" style="width:100%; line-height: 30px;">
+                        <optgroup id="city">
+                          {% if details.city %}
+                              <option value="{{ details.city.id }}"> {{ details.city.name }} </option>
+                          {% endif %}
+                          {% for x in city %}
+                              <option value="{{ x.id }}">{{ x.name }}</option>
+                          {% endfor %}
+                        </optgroup>
+                    </select>
+                </div>
+                <div class="col-lg-12 mt-5" id="area-id" style="padding: 18px;">
+                    <label>Area *</label>
+                        <select name="area" class="selectpicker customjs filter-item" data-size="7" data-live-search="true" title="Select Area" style="width:100%; line-height: 30px;">
+                            <optgroup id="area">
+                              {% if details.area %}
+                                  <option value="{{ details.area.id }}"> {{ details.area.name }} </option>
+                              {% endif %}
+                            </optgroup>
+                        </select>
+                </div>
+                <div class="col-lg-12 mt-5" id="address-id">
+                    <div class="form-group">
+                        <label for="exampleFormControlTextarea1">Address *</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3">{{ details.address }}</textarea>
+                      </div>
+                </div>
+            </div>
         </div>
+        <div class="col-lg-auto pe-lg-0 text-center">
+          <a href="#" class="button button-3d button-black m-0 sub">Update</a>
       </div>
-      <div class="form" action="/">
-        <div class="title">
-          <i class="fas fa-pencil-alt"></i> 
-          <h2 class="text-white">Set Your Address Here</h2>
-        </div>
-        <div class="info">
-            <label>Province</label>
-            <select id="province" class="province">
-                  {% if details.province %}
-                      <option value="{{ details.province.id }}">{{ details.province.name }}</option>
-                  {% endif %}
-                {% for x in province %}
-                  <option value="{{ x.id }}">{{ x.name }}</option>
-                {% endfor %}
-            </select>
-            <label>City</label>
-            <select id = "city" class="city">
-                {% if details.city %}
-                    <option value="{{ details.city.id }}"> {{ details.city.name }} </option>
-                {% endif %}
-                {% for x in city %}
-                  <option value="{{ x.id }}">{{ x.name }}</option>
-                {% endfor %}
-            </select>
-            <label>Area</label>
-            <select id = "area" class="area">
-                {% if details.area %}
-                    <option value="{{ details.area.id }}"> {{ details.area.name }} </option>
-                {% endif %}
-            </select>
-            <label>Address</label>
-            {% if details.address %}
-                <input class="house" type="text" name="address" value = "{{ details.address }}">
-            {% else %}
-                <input class="house" type="text" name="address">
-            {% endif %}
-            
-        </div>
-        <button class="sub" type="submit" href="/">Submit</button>
       </div>
-    </div>
-    </div>
 </div>
 {% endblock content %}
 
@@ -181,56 +89,61 @@
   <script>
     $(document).ready(function() {
       $('.sub').on('click',function(){
-        let province = $('.province').val()
-        let city = $('.city').val()
-        let area = $('.area').val()
-        let house = $('.house').val()
-        $.ajax({
-          url: '{% url "save" %}',
-          type: 'GET',
-          data : {
-                  'province': province,
-                  'city':city,
-                  'area':area,
-                  'house':house
-          },
-        })
+          let province = $('#province').parent().val()
+          let city = $('#city').parent().val()
+          let area = $('#area').parent().val()
+          let address = $('#exampleFormControlTextarea1').val()
+          var url = '{% url "save" %}'
+          fetch(url, {
+              method : 'POST',
+              headers : {
+                  'Content-Type':'application/json',
+                  'X-CSRFToken': csrftoken,
+              },
+              body:JSON.stringify({'province':province,'city':city,'area':area,'address':address})
+          })
+          .then((response) => response.json())
+          .then((data) => {
+              alert('transaction complete');
+              window.location.href = "{% url 'shop' %}"
+          })
       })
       
-      $('#province').on('change', function() {
-        $('.city').html(null)
-        $('.area').html(null)
-        let province = $('.province').val()
-        $.ajax({
-          url: '{% url "province" %}',
-          type: 'GET',
-          data : {
-                  'province': province
-          },
-          success: function(resp){
-              resp.data.forEach(x => {
-                $(`<option value="${ x.id }"> ${ x.name } </option>`).appendTo($('.city'))
-              });
-              }
-      });
+      $('#province').parent().on('change', function() {
+            let province = $('#province').parent().val()
+            $.ajax({
+            url: '{% url "province" %}',
+            type: 'GET',
+            data : {
+                    'province': province
+            },
+            success: function(resp){
+                $('#city').empty()
+                $('#area').empty()
+                resp.data.forEach(x => {
+                    $(`<option value="${ x.id }">${ x.name }</option>`).appendTo($("#city"))
+                });
+                $('#city').parent().selectpicker('refresh');
+            }
+        });
       })
-      $('#city').on('change', function() {
-        $('.area').html(null)
-        let city = $('.city').val()
-        $.ajax({
-          url: '{% url "city" %}',
-          type: 'GET',
-          data : {
-                  'city': city
-          },
-          success: function(resp){
-              resp.data.forEach(x => {
-                console.log(x)
-                $(`<option value="${ x.id }"> ${ x.name } </option>`).appendTo($('.area'))
-              });
-              }
-      });
-      })
+      $('#city').parent().on('change', function() {
+          let city = $('#city').parent().val()
+            $.ajax({
+              url: '{% url "city" %}',
+              type: 'GET',
+              data : {
+                      'city': city
+              },
+            success: function(resp){
+                $('#area').empty()
+                resp.data.forEach(x => {
+                $(`<option value="${ x.id }">${ x.name }</option>`).appendTo($("#area"))
+                });
+                $('#area').parent().selectpicker('refresh');
+            }
+          });
+        })
     })
     
   </script>
